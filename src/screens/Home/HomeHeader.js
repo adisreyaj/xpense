@@ -30,15 +30,15 @@ const HomeHeader = () => {
             Hi Maicy,
           </Text>
           <Spacing t={3} />
-          <Text style={[human.footnoteWhite, TYPOGRAPHY.body]}>
+          <Text style={[human.bodyWhite, TYPOGRAPHY.body]}>
             Your current balance is
           </Text>
           <Spacing t={3} />
           <Text
             style={[
               human.title1White,
-              TYPOGRAPHY.heading,
-              { fontSize: 46, paddingTop: 12 },
+              TYPOGRAPHY.numbers,
+              { fontSize: 46, paddingTop: 20 },
             ]}
           >
             $45,320

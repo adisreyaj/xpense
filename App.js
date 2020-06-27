@@ -7,6 +7,8 @@ import {
   Quicksand_600SemiBold,
   Quicksand_700Bold,
 } from '@expo-google-fonts/quicksand';
+
+import { Oswald_400Regular } from '@expo-google-fonts/oswald';
 import { AppLoading } from 'expo';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,6 +23,7 @@ export default function App() {
     Quicksand_500Medium,
     Quicksand_600SemiBold,
     Quicksand_700Bold,
+    Oswald_400Regular,
   });
 
   if (!fontsLoaded) return <AppLoading />;

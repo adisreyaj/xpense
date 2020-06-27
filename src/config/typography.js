@@ -11,4 +11,7 @@ export const TYPOGRAPHY = StyleSheet.create({
   body: {
     fontFamily: 'Quicksand_400Regular',
   },
+  numbers: {
+    fontFamily: 'Oswald_400Regular',
+  },
 });
