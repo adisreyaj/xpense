@@ -7,13 +7,14 @@ import {
   Quicksand_600SemiBold,
   Quicksand_700Bold,
 } from '@expo-google-fonts/quicksand';
-
 import { Oswald_400Regular } from '@expo-google-fonts/oswald';
 import { AppLoading } from 'expo';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+
 import { SCREENS } from './src/config/screens';
 import Home from './src/screens/Home/Home';
+import Transactions from './src/screens/Transactions/Transactions';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,10 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={SCREENS.home} headerMode="none">
           <Stack.Screen name={SCREENS.home} component={Home}></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.transactions}
+            component={Transactions}
+          ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </View>

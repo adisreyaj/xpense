@@ -19,24 +19,30 @@ import Category from '../../components/ui/Category';
 import SectionHeader from '../../components/ui/SectionHeader';
 import { TYPOGRAPHY } from '../../config/typography';
 import { human } from 'react-native-typography';
+import { SCREENS } from '../../config/screens';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeBody = () => {
   const quickAccess = [
     {
       label: 'Transactions',
       color: '#19D093',
+      route: SCREENS.transactions,
     },
     {
       label: 'Budget',
       color: '#FF594B',
+      route: SCREENS.transactions,
     },
     {
       label: 'Accounts',
       color: '#EBAC48',
+      route: SCREENS.transactions,
     },
     {
       label: 'Payments',
       color: '#2F26DB',
+      route: SCREENS.transactions,
     },
   ];
 
@@ -58,6 +64,7 @@ const HomeBody = () => {
     },
   ];
 
+  const navigator = useNavigation();
   const [translationYValue, setTranslationYValue] = useState(undefined);
   const bodyTranslateY = new Animated.Value(0);
   const translationY = useRef(new Animated.Value(1)).current;
@@ -71,7 +78,6 @@ const HomeBody = () => {
   const goBackHome = () => slideDownAnimation.start();
 
   useEffect(() => {
-    console.log({ translationYValue });
     if (translationYValue) {
       if (translationYValue * -1 > 50) {
         Animated.timing(translationY, {
@@ -90,6 +96,7 @@ const HomeBody = () => {
     }
   }, [translationYValue]);
 
+  const navigateTo = (screen) => screen && navigator.navigate(screen);
   return (
     <PanGestureHandler
       onHandlerStateChange={(e) =>
@@ -161,7 +168,12 @@ const HomeBody = () => {
               <FlatList
                 numColumns={2}
                 data={quickAccess}
-                renderItem={({ item }) => <QuickAccess {...item} />}
+                renderItem={({ item }) => (
+                  <QuickAccess
+                    {...item}
+                    clicked={(screen) => navigateTo(screen)}
+                  />
+                )}
               />
 
               <Spacing t={8} />

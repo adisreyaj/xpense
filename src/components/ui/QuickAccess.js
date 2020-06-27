@@ -1,18 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { human } from 'react-native-typography';
+
 import { TYPOGRAPHY } from '../../config/typography';
 import { THEME } from '../../config/theme';
-const QuickAccess = ({ label, color }) => {
+
+const QuickAccess = ({ label, color, route, clicked }) => {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => clicked(route)}
+      activeOpacity={0.8}
+    >
       <View style={{ ...styles.card }}>
         <View style={{ ...styles.dot, backgroundColor: color }}></View>
         <Text style={[human.title2White, TYPOGRAPHY.subheading]}>{label}</Text>
         <Text style={[human.footnoteWhite, TYPOGRAPHY.body]}>150 Items</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
