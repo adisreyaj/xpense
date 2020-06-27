@@ -4,9 +4,10 @@ import { human } from 'react-native-typography';
 
 import { TYPOGRAPHY } from '../../config/typography';
 import { THEME } from '../../config/theme';
+import Buttons from './Buttons';
 
 const SectionHeader = ({ title, subtitle, button }) => {
-  return (
+  return title ? (
     <View style={styles.transactionsHeader}>
       <View>
         <Text style={[human.title2, TYPOGRAPHY.subheading]}>{title}</Text>
@@ -16,11 +17,13 @@ const SectionHeader = ({ title, subtitle, button }) => {
           {subtitle}
         </Text>
       </View>
-      <Buttons type="fade" color="fade">
-        {button}
-      </Buttons>
+      {button && (
+        <Buttons type="fade" color="fade">
+          {button}
+        </Buttons>
+      )}
     </View>
-  );
+  ) : null;
 };
 
 export default SectionHeader;
@@ -30,5 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginVertical: 16,
+    paddingHorizontal: 12,
   },
 });

@@ -14,6 +14,7 @@ const Buttons = ({ children, color = 'primary', type = 'base' }) => {
           ...TYPOGRAPHY.subheading,
           ...textColor[color],
           fontSize: 18,
+          marginBottom: 4,
         }}
       >
         {children}
@@ -45,11 +46,13 @@ const buttonTypes = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 16,
     elevation: 5,
+    alignItems: 'center',
   },
   fade: {
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
+    alignItems: 'center',
   },
 });
 const textColor = StyleSheet.create({

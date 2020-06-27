@@ -24,7 +24,7 @@ const Search = () => {
         <TextInput
           onFocus={() => setInFocus(true)}
           onBlur={() => setInFocus(false)}
-          placeholder="Search transactions"
+          placeholder="Search"
           placeholderTextColor={THEME.textSecondary}
           style={styles.textInput}
         />

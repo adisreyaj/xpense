@@ -20,6 +20,7 @@ const HomeHeader = () => {
         <Image
           source={require('../../../assets/images/logo.png')}
           resizeMode="contain"
+          width="30"
         />
         <Feather name="menu" size={28} color="#fff" />
       </View>
