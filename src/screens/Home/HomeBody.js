@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { Extrapolate, Easing } from 'react-native-reanimated';
-import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 
 import Search from '../../components/ui/Search';
@@ -130,9 +129,14 @@ const HomeBody = () => {
           <TouchableOpacity onPress={goBackHome}>
             <Animated.View
               style={{
-                flexDirection: 'row',
+                padding: Animated.interpolate(translationY, {
+                  inputRange: [0, 1],
+                  outputRange: [0, 12],
+                  extrapolate: Extrapolate.CLAMP,
+                }),
+                width: 50,
                 alignItems: 'center',
-                paddingHorizontal: 12,
+                // backgroundColor: 'red',
                 opacity: Animated.interpolate(translationY, {
                   inputRange: [0, 1],
                   outputRange: [0, 1],
@@ -140,12 +144,7 @@ const HomeBody = () => {
                 }),
               }}
             >
-              <Ionicons name="ios-arrow-back" size={26} color="black" />
-              <Text
-                style={[human.body, TYPOGRAPHY.subheading, { marginLeft: 8 }]}
-              >
-                Go Back
-              </Text>
+              <Ionicons name="md-arrow-back" size={26} color="black" />
             </Animated.View>
           </TouchableOpacity>
           <Animated.View

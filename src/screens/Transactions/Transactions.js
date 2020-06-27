@@ -1,14 +1,46 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Constants from 'expo-constants';
+import { Ionicons } from '@expo/vector-icons';
+
+import { THEME } from '../../config/theme';
+import { human } from 'react-native-typography';
+import { TYPOGRAPHY } from '../../config/typography';
 
 const Transactions = () => {
   return (
     <View>
-      <Text></Text>
+      <View style={styles.header}>
+        <View style={styles.back}>
+          <Ionicons name="md-arrow-back" size={26} color="#fff" />
+        </View>
+      </View>
+      <View style={styles.body}></View>
     </View>
   );
 };
 
 export default Transactions;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    paddingHorizontal: 16,
+    backgroundColor: THEME.primary,
+    width: '100%',
+    height: 150,
+    paddingTop: Constants.statusBarHeight + 24,
+  },
+  back: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  body: {
+    width: '100%',
+    backgroundColor: '#fff',
+    height: '100%',
+    marginTop: -30,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+});
