@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,6 +7,7 @@ import { THEME } from '../../config/theme';
 import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import SectionHeader from '../../components/ui/SectionHeader';
+import TransactionItem from './TransactionItem';
 
 const Transactions = () => {
   return (
@@ -21,6 +22,8 @@ const Transactions = () => {
           title="Transactions"
           subtitle="All your transactions can be viewed here"
         />
+
+        <FlatList data={[1, 1, 1, 1]} renderItem={() => <TransactionItem />} />
       </View>
     </View>
   );
