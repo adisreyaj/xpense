@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { THEME } from '../../config/theme';
 import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
+import SectionHeader from '../../components/ui/SectionHeader';
 
 const Transactions = () => {
   return (
@@ -15,7 +16,12 @@ const Transactions = () => {
           <Ionicons name="md-arrow-back" size={26} color="#fff" />
         </View>
       </View>
-      <View style={styles.body}></View>
+      <View style={styles.body}>
+        <SectionHeader
+          title="Transactions"
+          subtitle="All your transactions can be viewed here"
+        />
+      </View>
     </View>
   );
 };
@@ -42,5 +48,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
   },
 });
