@@ -26,7 +26,7 @@ export default function App() {
     Quicksand_700Bold,
     Oswald_400Regular,
   });
-
+  console.disableYellowBox = true;
   if (!fontsLoaded) return <AppLoading />;
   return (
     <View style={styles.container}>

@@ -1,5 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, StatusBar } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  StatusBar,
+  Animated,
+  Easing,
+} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 
@@ -8,6 +16,24 @@ import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import Spacing from '../../components/ui/Spacing';
 const HomeHeader = () => {
+  const elementsToAnimated = Array(3).fill(true);
+  let translateValues = elementsToAnimated.map(() => new Animated.Value(0));
+  const staggeredAnimations = translateValues.map((value) =>
+    Animated.timing(value, {
+      toValue: 1,
+      duration: 300,
+      delay: 300,
+      easing: Easing.bezier(0.17, 0.67, 0.82, 0.98),
+      useNativeDriver: true,
+    })
+  );
+  const animation = Animated.stagger(100, staggeredAnimations);
+
+  useEffect(() => {
+    translateValues.forEach((value) => value.setValue(0));
+    animation.start();
+  }, []);
+
   return (
     <View style={styles.header}>
       <StatusBar
@@ -27,31 +53,97 @@ const HomeHeader = () => {
 
       <View style={[styles.section, styles.userInfo]}>
         <View>
-          <Text style={[human.title1White, TYPOGRAPHY.subheading]}>
+          <Animated.Text
+            style={[
+              human.title1White,
+              TYPOGRAPHY.subheading,
+              {
+                opacity: translateValues[0].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+                transform: [
+                  {
+                    translateY: translateValues[0].interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [30, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
             Hi Maicy,
-          </Text>
+          </Animated.Text>
           <Spacing t={3} />
-          <Text style={[human.bodyWhite, TYPOGRAPHY.body]}>
+          <Animated.Text
+            style={[
+              human.bodyWhite,
+              TYPOGRAPHY.body,
+              {
+                opacity: translateValues[1].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+                transform: [
+                  {
+                    translateY: translateValues[1].interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [30, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
             Your current balance is
-          </Text>
+          </Animated.Text>
           <Spacing t={3} />
-          <Text
+          <Animated.Text
             style={[
               human.title1White,
               TYPOGRAPHY.numbers,
-              { fontSize: 46, paddingTop: 20 },
+              {
+                fontSize: 46,
+                paddingTop: 20,
+                opacity: translateValues[2].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+                transform: [
+                  {
+                    translateY: translateValues[2].interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [30, 0],
+                    }),
+                  },
+                ],
+              },
             ]}
           >
             $45,320
-          </Text>
+          </Animated.Text>
         </View>
-        <View style={{ ...styles.userImage, elevation: 25 }}>
+        <Animated.View
+          style={{
+            ...styles.userImage,
+            elevation: 25,
+            transform: [
+              {
+                scale: translateValues[1].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+              },
+            ],
+          }}
+        >
           <Image
             source={require('../../../assets/images/avatar.png')}
             resizeMode="contain"
             style={styles.userImage}
           />
-        </View>
+        </Animated.View>
       </View>
     </View>
   );
