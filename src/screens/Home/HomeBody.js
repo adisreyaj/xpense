@@ -291,7 +291,7 @@ const HomeBody = ({ translationY }) => {
               <FlatList
                 numColumns={2}
                 data={quickAccess}
-                keyExtractor={(item) => item.label}
+                keyExtractor={(item) => item.title}
                 renderItem={({ item, index }) => (
                   <Animated.View
                     style={{
