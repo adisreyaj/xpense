@@ -119,6 +119,113 @@ const HomeBody = () => {
     }
   }, [translationYValue]);
 
+  const bodyTransitions = {
+    transform: [
+      {
+        translateY: translationY.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [Dimensions.get('window').height, 300, 120],
+          extrapolate: 'clamp',
+        }),
+      },
+    ],
+  };
+
+  const contentTransitions = {
+    transform: [
+      {
+        translateY: translationY.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 12],
+          extrapolate: 'clamp',
+        }),
+      },
+    ],
+  };
+
+  const backButtonTransition = {
+    opacity: translationY.interpolate({
+      inputRange: [0, 0.8, 1],
+      outputRange: [0, 0, 1],
+      extrapolate: 'clamp',
+    }),
+  };
+
+  const searchTransitions = {
+    opacity: quickAccessAnimationValues[0].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: quickAccessAnimationValues[0].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  };
+
+  const quickAccessHeaderTransitions = {
+    opacity: quickAccessAnimationValues[0].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: quickAccessAnimationValues[0].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  };
+
+  const quickAccessItemTransitions = (index) => ({
+    opacity: quickAccessAnimationValues[index + 1].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: quickAccessAnimationValues[index + 1].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  });
+
+  const categoriesHeaderTransitions = {
+    opacity: categoriesAnimationValues[0].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: categoriesAnimationValues[0].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  };
+
+  const categoriesItemTransitions = (index) => ({
+    opacity: categoriesAnimationValues[index + 1].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: categoriesAnimationValues[index + 1].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  });
+
   const navigateTo = (screen) => screen && navigator.navigate(screen);
 
   const goBackHome = () =>
@@ -136,41 +243,20 @@ const HomeBody = () => {
       <Animated.View
         style={{
           ...styles.body,
-          transform: [
-            {
-              translateY: translationY.interpolate({
-                inputRange: [-1, 0, 1],
-                outputRange: [Dimensions.get('window').height, 300, 120],
-                extrapolate: 'clamp',
-              }),
-            },
-          ],
+          ...bodyTransitions,
         }}
       >
         <Animated.View
           style={{
             ...styles.content,
-
-            transform: [
-              {
-                translateY: translationY.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 12],
-                  extrapolate: 'clamp',
-                }),
-              },
-            ],
+            ...contentTransitions,
           }}
         >
           <TouchableOpacity onPress={goBackHome} style={{ width: 50 }}>
             <Animated.View
               style={{
                 alignItems: 'center',
-                opacity: translationY.interpolate({
-                  inputRange: [0, 0.8, 1],
-                  outputRange: [0, 0, 1],
-                  extrapolate: 'clamp',
-                }),
+                ...backButtonTransition,
               }}
             >
               <Ionicons name="md-arrow-back" size={26} color="black" />
@@ -189,22 +275,7 @@ const HomeBody = () => {
               ],
             }}
           >
-            <Animated.View
-              style={{
-                opacity: quickAccessAnimationValues[0].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                }),
-                transform: [
-                  {
-                    translateY: quickAccessAnimationValues[0].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [50, 0],
-                    }),
-                  },
-                ],
-              }}
-            >
+            <Animated.View style={searchTransitions}>
               <Search />
             </Animated.View>
             <Spacing b={8} />
@@ -215,110 +286,48 @@ const HomeBody = () => {
                 marginBottom: 220,
               }}
             >
-              <View style={styles.categories}>
-                <Animated.View
-                  style={{
-                    opacity: quickAccessAnimationValues[0].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, 1],
-                    }),
-                    transform: [
-                      {
-                        translateY: quickAccessAnimationValues[0].interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [50, 0],
-                        }),
-                      },
-                    ],
-                  }}
-                >
-                  <SectionHeader title="Quick Access" />
-                </Animated.View>
-                <FlatList
-                  numColumns={2}
-                  data={quickAccess}
-                  keyExtractor={(item) => item.label}
-                  renderItem={({ item, index }) => (
-                    <Animated.View
-                      style={{
-                        flex: 1,
-                        opacity: quickAccessAnimationValues[
-                          index + 1
-                        ].interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [0, 1],
-                        }),
-                        transform: [
-                          {
-                            translateY: quickAccessAnimationValues[
-                              index + 1
-                            ].interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [50, 0],
-                            }),
-                          },
-                        ],
-                      }}
-                    >
-                      <QuickAccess
-                        {...item}
-                        clicked={(screen) => navigateTo(screen)}
-                      />
-                    </Animated.View>
-                  )}
-                />
+              <Animated.View style={quickAccessHeaderTransitions}>
+                <SectionHeader title="Quick Access" />
+              </Animated.View>
+              <FlatList
+                numColumns={2}
+                data={quickAccess}
+                keyExtractor={(item) => item.label}
+                renderItem={({ item, index }) => (
+                  <Animated.View
+                    style={{
+                      flex: 1,
+                      ...quickAccessItemTransitions(index),
+                    }}
+                  >
+                    <QuickAccess
+                      {...item}
+                      clicked={(screen) => navigateTo(screen)}
+                    />
+                  </Animated.View>
+                )}
+              />
 
-                <Spacing t={8} />
-                <Animated.View
-                  style={{
-                    opacity: categoriesAnimationValues[0].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, 1],
-                    }),
-                    transform: [
-                      {
-                        translateY: categoriesAnimationValues[0].interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [50, 0],
-                        }),
-                      },
-                    ],
-                  }}
-                >
-                  <SectionHeader title="Categories" button="View More" />
-                </Animated.View>
-                <FlatList
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={categories}
-                  keyExtractor={(item) => item.title}
-                  renderItem={({ item, index }) => (
-                    <Animated.View
-                      style={{
-                        flex: 1,
-                        opacity: categoriesAnimationValues[
-                          index + 1
-                        ].interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [0, 1],
-                        }),
-                        transform: [
-                          {
-                            translateY: categoriesAnimationValues[
-                              index + 1
-                            ].interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [50, 0],
-                            }),
-                          },
-                        ],
-                      }}
-                    >
-                      <Category {...item} />
-                    </Animated.View>
-                  )}
-                />
-              </View>
+              <Spacing t={8} />
+              <Animated.View style={categoriesHeaderTransitions}>
+                <SectionHeader title="Categories" button="View More" />
+              </Animated.View>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={categories}
+                keyExtractor={(item) => item.title}
+                renderItem={({ item, index }) => (
+                  <Animated.View
+                    style={{
+                      flex: 1,
+                      ...categoriesItemTransitions(index),
+                    }}
+                  >
+                    <Category {...item} />
+                  </Animated.View>
+                )}
+              />
               <Spacing b={20} />
             </Animated.ScrollView>
           </Animated.View>
