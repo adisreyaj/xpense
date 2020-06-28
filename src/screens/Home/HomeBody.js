@@ -19,14 +19,13 @@ import SectionHeader from '../../components/ui/SectionHeader';
 import { useNavigation } from '@react-navigation/native';
 import { quickAccess, categories } from '../../data/mock';
 
-const HomeBody = () => {
+const HomeBody = ({ translationY }) => {
   const navigator = useNavigation();
   const [translationYValue, setTranslationYValue] = useState(undefined);
   const [isOpen, setIsOpen] = useState(false);
 
   // Animations Preps
   const bodyTranslateY = new Animated.Value(0);
-  const translationY = useRef(new Animated.Value(-1)).current;
   const searchTranslate = new Animated.Value(0);
   let quickAccessAnimationValues = [true, ...quickAccess].map(
     () => new Animated.Value(0)

@@ -19,7 +19,7 @@ import { TYPOGRAPHY } from '../../config/typography';
 import Spacing from '../../components/ui/Spacing';
 import { SCREENS } from '../../config/screens';
 
-const HomeHeader = () => {
+const HomeHeader = ({ drawerTranslate }) => {
   const navigator = useNavigation();
   const elementsToAnimated = Array(3).fill(true);
   let translateValues = elementsToAnimated.map(() => new Animated.Value(0));
@@ -114,7 +114,30 @@ const HomeHeader = () => {
         <Feather name="menu" size={28} color="#fff" />
       </View>
 
-      <View style={[styles.section, styles.userInfo]}>
+      <Animated.View
+        style={[
+          styles.section,
+          styles.userInfo,
+          {
+            opacity: drawerTranslate.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+          {
+            transform: [
+              {
+                scale: drawerTranslate.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0.8],
+                  extrapolate: 'clamp',
+                }),
+              },
+            ],
+          },
+        ]}
+      >
         <View>
           <Animated.Text
             style={[
@@ -161,7 +184,7 @@ const HomeHeader = () => {
             />
           </TouchableOpacity>
         </Animated.View>
-      </View>
+      </Animated.View>
     </View>
   );
 };
