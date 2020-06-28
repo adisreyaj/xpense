@@ -26,7 +26,7 @@ const HomeBody = () => {
 
   // Animations Preps
   const bodyTranslateY = new Animated.Value(0);
-  const translationY = useRef(new Animated.Value(0)).current;
+  const translationY = useRef(new Animated.Value(-1)).current;
   const searchTranslate = new Animated.Value(0);
   let quickAccessAnimationValues = [true, ...quickAccess].map(
     () => new Animated.Value(0)
@@ -60,17 +60,19 @@ const HomeBody = () => {
     useNativeDriver: true,
   });
 
+  const drawerSlideInAnimation = Animated.timing(translationY, {
+    toValue: 0,
+    duration: 500,
+    easing: Easing.bezier(0.24, 0.82, 0.84, 0.98),
+    useNativeDriver: true,
+  });
+
   const slideDownAnimation = Animated.timing(translationY, {
     toValue: 0,
     duration: 300,
     easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
     useNativeDriver: true,
   });
-
-  const goBackHome = () =>
-    slideDownAnimation.start(() => {
-      setIsOpen(false);
-    });
 
   // Run once on start
   useEffect(() => {
@@ -83,6 +85,7 @@ const HomeBody = () => {
 
     // Start staggered animation
     Animated.sequence([
+      drawerSlideInAnimation,
       searchAnimation,
       quickAccessStagger,
       categoriesStagger,
@@ -117,6 +120,12 @@ const HomeBody = () => {
   }, [translationYValue]);
 
   const navigateTo = (screen) => screen && navigator.navigate(screen);
+
+  const goBackHome = () =>
+    slideDownAnimation.start(() => {
+      setIsOpen(false);
+    });
+
   return (
     <PanGestureHandler
       enabled={!isOpen}
@@ -130,8 +139,8 @@ const HomeBody = () => {
           transform: [
             {
               translateY: translationY.interpolate({
-                inputRange: [0, 1],
-                outputRange: [300, 120],
+                inputRange: [-1, 0, 1],
+                outputRange: [Dimensions.get('window').height, 300, 120],
                 extrapolate: 'clamp',
               }),
             },
