@@ -1,3 +1,5 @@
+import { SCREENS } from '../config/screens';
+
 export const transactionsItems = [
   {
     title: 'Paid for trip to office',
@@ -38,5 +40,46 @@ export const transactionsItems = [
     color: 'red',
     amount: '1999',
     type: 'debit',
+  },
+];
+
+export const quickAccess = [
+  {
+    label: 'Transactions',
+    color: '#19D093',
+    route: SCREENS.transactions,
+  },
+  {
+    label: 'Budget',
+    color: '#FF594B',
+    route: SCREENS.transactions,
+  },
+  {
+    label: 'Accounts',
+    color: '#EBAC48',
+    route: SCREENS.transactions,
+  },
+  {
+    label: 'Payments',
+    color: '#2F26DB',
+    route: SCREENS.transactions,
+  },
+];
+
+export const categories = [
+  {
+    title: 'Transport',
+    subtitle: '26 Jun $50',
+    icon: 'car',
+  },
+  {
+    title: 'Food',
+    subtitle: '26 Jun $50',
+    icon: 'food',
+  },
+  {
+    title: 'Shopping',
+    subtitle: '26 Jun $50',
+    icon: 'cart',
   },
 ];

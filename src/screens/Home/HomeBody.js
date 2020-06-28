@@ -5,10 +5,10 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
-  ScrollView,
+  Animated,
+  Easing,
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import Animated, { Extrapolate, Easing } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 
 import Search from '../../components/ui/Search';
@@ -16,67 +16,78 @@ import QuickAccess from '../../components/ui/QuickAccess';
 import Spacing from '../../components/ui/Spacing';
 import Category from '../../components/ui/Category';
 import SectionHeader from '../../components/ui/SectionHeader';
-import { SCREENS } from '../../config/screens';
 import { useNavigation } from '@react-navigation/native';
+import { quickAccess, categories } from '../../data/mock';
 
 const HomeBody = () => {
-  const quickAccess = [
-    {
-      label: 'Transactions',
-      color: '#19D093',
-      route: SCREENS.transactions,
-    },
-    {
-      label: 'Budget',
-      color: '#FF594B',
-      route: SCREENS.transactions,
-    },
-    {
-      label: 'Accounts',
-      color: '#EBAC48',
-      route: SCREENS.transactions,
-    },
-    {
-      label: 'Payments',
-      color: '#2F26DB',
-      route: SCREENS.transactions,
-    },
-  ];
-
-  const categories = [
-    {
-      title: 'Transport',
-      subtitle: '26 Jun $50',
-      icon: 'car',
-    },
-    {
-      title: 'Food',
-      subtitle: '26 Jun $50',
-      icon: 'food',
-    },
-    {
-      title: 'Shopping',
-      subtitle: '26 Jun $50',
-      icon: 'cart',
-    },
-  ];
-
   const navigator = useNavigation();
   const [translationYValue, setTranslationYValue] = useState(undefined);
   const [isOpen, setIsOpen] = useState(false);
+
+  // Animations Preps
   const bodyTranslateY = new Animated.Value(0);
   const translationY = useRef(new Animated.Value(0)).current;
+  const searchTranslate = new Animated.Value(0);
+  let quickAccessAnimationValues = [true, ...quickAccess].map(
+    () => new Animated.Value(0)
+  );
+  let categoriesAnimationValues = [true, ...categories].map(
+    () => new Animated.Value(0)
+  );
+
+  const quickAccessAnimations = quickAccessAnimationValues.map((value) =>
+    Animated.timing(value, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.bezier(0.17, 0.67, 0.82, 0.98),
+      useNativeDriver: true,
+    })
+  );
+
+  const categoriesAnimations = categoriesAnimationValues.map((value) =>
+    Animated.timing(value, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.bezier(0.17, 0.67, 0.82, 0.98),
+      useNativeDriver: true,
+    })
+  );
+
+  const searchAnimation = Animated.timing(searchTranslate, {
+    toValue: 1,
+    duration: 200,
+    easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
+    useNativeDriver: true,
+  });
 
   const slideDownAnimation = Animated.timing(translationY, {
     toValue: 0,
     duration: 300,
     easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
+    useNativeDriver: true,
   });
 
   const goBackHome = () =>
     slideDownAnimation.start(() => {
       setIsOpen(false);
     });
+
+  // Run once on start
+  useEffect(() => {
+    // Reset all the values to 0 on load
+    quickAccessAnimationValues.forEach((value) => value.setValue(0));
+    categoriesAnimationValues.forEach((value) => value.setValue(0));
+    searchTranslate.setValue(0);
+    const quickAccessStagger = Animated.stagger(80, quickAccessAnimations);
+    const categoriesStagger = Animated.stagger(80, categoriesAnimations);
+
+    // Start staggered animation
+    Animated.sequence([
+      searchAnimation,
+      quickAccessStagger,
+      categoriesStagger,
+    ]).start();
+  }, []);
 
   useEffect(() => {
     if (translationYValue) {
@@ -85,6 +96,7 @@ const HomeBody = () => {
           toValue: 1,
           duration: 400,
           easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
+          useNativeDriver: true,
         }).start(() => {
           bodyTranslateY.setValue(1);
           setIsOpen(true);
@@ -95,6 +107,7 @@ const HomeBody = () => {
           toValue: 0,
           duration: 200,
           easing: Easing.in,
+          useNativeDriver: true,
         }).start(() => {
           bodyTranslateY.setValue(0);
           setIsOpen(false);
@@ -114,22 +127,27 @@ const HomeBody = () => {
       <Animated.View
         style={{
           ...styles.body,
-          top: Animated.interpolate(translationY, {
-            inputRange: [0, 1],
-            outputRange: [300, 120],
-            extrapolate: Extrapolate.CLAMP,
-          }),
+          transform: [
+            {
+              translateY: translationY.interpolate({
+                inputRange: [0, 1],
+                outputRange: [300, 120],
+                extrapolate: 'clamp',
+              }),
+            },
+          ],
         }}
       >
         <Animated.View
           style={{
             ...styles.content,
+
             transform: [
               {
-                translateY: Animated.interpolate(translationY, {
+                translateY: translationY.interpolate({
                   inputRange: [0, 1],
                   outputRange: [0, 12],
-                  extrapolate: Extrapolate.CLAMP,
+                  extrapolate: 'clamp',
                 }),
               },
             ],
@@ -138,68 +156,163 @@ const HomeBody = () => {
           <TouchableOpacity onPress={goBackHome} style={{ width: 50 }}>
             <Animated.View
               style={{
-                paddingBottom: Animated.interpolate(translationY, {
-                  inputRange: [0, 1],
-                  outputRange: [0, 24],
-                  extrapolate: Extrapolate.CLAMP,
-                }),
-
                 alignItems: 'center',
-                // backgroundColor: 'red',
-                opacity: Animated.interpolate(translationY, {
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                  extrapolate: Extrapolate.CLAMP,
+                opacity: translationY.interpolate({
+                  inputRange: [0, 0.8, 1],
+                  outputRange: [0, 0, 1],
+                  extrapolate: 'clamp',
                 }),
               }}
             >
               <Ionicons name="md-arrow-back" size={26} color="black" />
             </Animated.View>
           </TouchableOpacity>
-          <Search />
-          <Spacing b={8} />
-          <Animated.ScrollView
-            scrollEnabled={isOpen}
-            showsVerticalScrollIndicator={false}
+          <Animated.View
             style={{
-              marginBottom: 220,
+              transform: [
+                {
+                  translateY: translationY.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 24],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
             }}
           >
-            <View style={styles.categories}>
-              <SectionHeader title="Quick Access" />
-              <FlatList
-                numColumns={2}
-                data={quickAccess}
-                keyExtractor={(item) => item.label}
-                renderItem={({ item }) => (
-                  <QuickAccess
-                    {...item}
-                    clicked={(screen) => navigateTo(screen)}
-                  />
-                )}
-              />
+            <Animated.View
+              style={{
+                opacity: quickAccessAnimationValues[0].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+                transform: [
+                  {
+                    translateY: quickAccessAnimationValues[0].interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [50, 0],
+                    }),
+                  },
+                ],
+              }}
+            >
+              <Search />
+            </Animated.View>
+            <Spacing b={8} />
+            <Animated.ScrollView
+              scrollEnabled={isOpen}
+              showsVerticalScrollIndicator={false}
+              style={{
+                marginBottom: 220,
+              }}
+            >
+              <View style={styles.categories}>
+                <Animated.View
+                  style={{
+                    opacity: quickAccessAnimationValues[0].interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 1],
+                    }),
+                    transform: [
+                      {
+                        translateY: quickAccessAnimationValues[0].interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [50, 0],
+                        }),
+                      },
+                    ],
+                  }}
+                >
+                  <SectionHeader title="Quick Access" />
+                </Animated.View>
+                <FlatList
+                  numColumns={2}
+                  data={quickAccess}
+                  keyExtractor={(item) => item.label}
+                  renderItem={({ item, index }) => (
+                    <Animated.View
+                      style={{
+                        flex: 1,
+                        opacity: quickAccessAnimationValues[
+                          index + 1
+                        ].interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [0, 1],
+                        }),
+                        transform: [
+                          {
+                            translateY: quickAccessAnimationValues[
+                              index + 1
+                            ].interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [50, 0],
+                            }),
+                          },
+                        ],
+                      }}
+                    >
+                      <QuickAccess
+                        {...item}
+                        clicked={(screen) => navigateTo(screen)}
+                      />
+                    </Animated.View>
+                  )}
+                />
 
-              <Spacing t={8} />
-              <SectionHeader title="Categories" button="View More" />
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={categories}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item }) => <Category {...item} />}
-              />
-              <Spacing t={8} />
-              <SectionHeader title="Categories" button="View More" />
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={categories}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item }) => <Category {...item} />}
-              />
-            </View>
-            <Spacing b={20} />
-          </Animated.ScrollView>
+                <Spacing t={8} />
+                <Animated.View
+                  style={{
+                    opacity: categoriesAnimationValues[0].interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 1],
+                    }),
+                    transform: [
+                      {
+                        translateY: categoriesAnimationValues[0].interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [50, 0],
+                        }),
+                      },
+                    ],
+                  }}
+                >
+                  <SectionHeader title="Categories" button="View More" />
+                </Animated.View>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={categories}
+                  keyExtractor={(item) => item.title}
+                  renderItem={({ item, index }) => (
+                    <Animated.View
+                      style={{
+                        flex: 1,
+                        opacity: categoriesAnimationValues[
+                          index + 1
+                        ].interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [0, 1],
+                        }),
+                        transform: [
+                          {
+                            translateY: categoriesAnimationValues[
+                              index + 1
+                            ].interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [50, 0],
+                            }),
+                          },
+                        ],
+                      }}
+                    >
+                      <Category {...item} />
+                    </Animated.View>
+                  )}
+                />
+              </View>
+              <Spacing b={20} />
+            </Animated.ScrollView>
+          </Animated.View>
         </Animated.View>
       </Animated.View>
     </PanGestureHandler>

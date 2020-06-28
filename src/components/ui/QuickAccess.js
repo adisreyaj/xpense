@@ -31,7 +31,6 @@ export default QuickAccess;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: '100%',
     margin: 8,
     flex: 1,
   },

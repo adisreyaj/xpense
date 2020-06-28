@@ -11,11 +11,21 @@ const Category = ({ title, subtitle, icon }) => {
     <View style={styles.cardContainer}>
       <View style={styles.card}>
         <View style={styles.icon}>
-          <MaterialCommunityIcons name={icon} size={24} color={THEME.primary} />
+          {icon && (
+            <MaterialCommunityIcons
+              name={icon}
+              size={24}
+              color={THEME.primary}
+            />
+          )}
         </View>
         <View>
-          <Text style={[human.title3, TYPOGRAPHY.heading]}>{title}</Text>
-          <Text style={[human.footnote, TYPOGRAPHY.body]}>{subtitle}</Text>
+          {title && (
+            <Text style={[human.title3, TYPOGRAPHY.heading]}>{title}</Text>
+          )}
+          {subtitle && (
+            <Text style={[human.footnote, TYPOGRAPHY.body]}>{subtitle}</Text>
+          )}
         </View>
       </View>
     </View>
