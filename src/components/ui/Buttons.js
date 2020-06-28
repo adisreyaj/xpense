@@ -13,7 +13,7 @@ const Buttons = ({ children, color = 'primary', type = 'base' }) => {
         style={{
           ...TYPOGRAPHY.subheading,
           ...textColor[color],
-          fontSize: 18,
+          fontSize: 16,
           marginBottom: 4,
         }}
       >

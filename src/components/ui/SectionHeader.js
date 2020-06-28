@@ -11,11 +11,17 @@ const SectionHeader = ({ title, subtitle, button }) => {
     <View style={styles.transactionsHeader}>
       <View>
         <Text style={[human.title2, TYPOGRAPHY.subheading]}>{title}</Text>
-        <Text
-          style={[human.body, TYPOGRAPHY.body, { color: THEME.textSecondary }]}
-        >
-          {subtitle}
-        </Text>
+        {subtitle && (
+          <Text
+            style={[
+              human.body,
+              TYPOGRAPHY.body,
+              { color: THEME.textSecondary },
+            ]}
+          >
+            {subtitle}
+          </Text>
+        )}
       </View>
       {button && (
         <Buttons type="fade" color="fade">

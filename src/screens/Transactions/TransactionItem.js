@@ -6,28 +6,30 @@ import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import Spacing from '../../components/ui/Spacing';
 
-const TransactionItem = () => {
+const TransactionItem = ({ title, category, icon, color, type, amount }) => {
+  const arrowIcons = {
+    debit: <MaterialCommunityIcons name="arrow-down" size={20} color="red" />,
+    credit: <MaterialCommunityIcons name="arrow-up" size={20} color="green" />,
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <View style={styles.icon}>
-            <MaterialCommunityIcons
-              name="car"
-              size={24}
-              color={THEME.primary}
-            />
+            <MaterialCommunityIcons name={icon} size={24} color={color} />
           </View>
           <Spacing r={3} />
           <View>
-            <Text style={[human.title2, TYPOGRAPHY.heading]}>Uber</Text>
-            <Text style={[human.footnote, TYPOGRAPHY.body]}>25 Jun 2020</Text>
+            <Text style={[human.callout, TYPOGRAPHY.subheading]}>{title}</Text>
+            <Spacing t={0.3} />
+            <Text style={[human.footnote, TYPOGRAPHY.body]}>25 Jun</Text>
           </View>
         </View>
         <View style={styles.contentRight}>
-          <MaterialCommunityIcons name="arrow-down" size={20} color="red" />
+          {arrowIcons[type]}
           <Spacing r={1} />
-          <Text style={[human.title2, TYPOGRAPHY.numbers]}>$250</Text>
+          <Text style={[human.title2, TYPOGRAPHY.numbers]}>${amount}</Text>
         </View>
       </View>
     </View>
@@ -45,10 +47,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: `${THEME.bg}50`,
+    borderRadius: 12,
   },
   contentLeft: {
     flexDirection: 'row',
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    backgroundColor: `${THEME.primary}30`,
+    backgroundColor: '#fff',
     width: 50,
     height: 50,
     borderRadius: 8,

@@ -14,7 +14,7 @@ const Category = ({ title, subtitle, icon }) => {
           <MaterialCommunityIcons name={icon} size={24} color={THEME.primary} />
         </View>
         <View>
-          <Text style={[human.title2, TYPOGRAPHY.heading]}>{title}</Text>
+          <Text style={[human.title3, TYPOGRAPHY.heading]}>{title}</Text>
           <Text style={[human.footnote, TYPOGRAPHY.body]}>{subtitle}</Text>
         </View>
       </View>

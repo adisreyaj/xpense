@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createRef } from 'react';
 import {
   StyleSheet,
   View,
   Dimensions,
   FlatList,
-  Text,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { Extrapolate, Easing } from 'react-native-reanimated';
@@ -16,8 +16,6 @@ import QuickAccess from '../../components/ui/QuickAccess';
 import Spacing from '../../components/ui/Spacing';
 import Category from '../../components/ui/Category';
 import SectionHeader from '../../components/ui/SectionHeader';
-import { TYPOGRAPHY } from '../../config/typography';
-import { human } from 'react-native-typography';
 import { SCREENS } from '../../config/screens';
 import { useNavigation } from '@react-navigation/native';
 
@@ -65,8 +63,9 @@ const HomeBody = () => {
 
   const navigator = useNavigation();
   const [translationYValue, setTranslationYValue] = useState(undefined);
+  const [isOpen, setIsOpen] = useState(false);
   const bodyTranslateY = new Animated.Value(0);
-  const translationY = useRef(new Animated.Value(1)).current;
+  const translationY = useRef(new Animated.Value(0)).current;
 
   const slideDownAnimation = Animated.timing(translationY, {
     toValue: 0,
@@ -74,7 +73,10 @@ const HomeBody = () => {
     easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
   });
 
-  const goBackHome = () => slideDownAnimation.start();
+  const goBackHome = () =>
+    slideDownAnimation.start(() => {
+      setIsOpen(false);
+    });
 
   useEffect(() => {
     if (translationYValue) {
@@ -83,14 +85,20 @@ const HomeBody = () => {
           toValue: 1,
           duration: 400,
           easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
-        }).start(() => bodyTranslateY.setValue(1));
+        }).start(() => {
+          bodyTranslateY.setValue(1);
+          setIsOpen(true);
+        });
       }
       if (translationYValue > 50) {
         Animated.timing(translationY, {
           toValue: 0,
           duration: 200,
           easing: Easing.in,
-        }).start(() => bodyTranslateY.setValue(0));
+        }).start(() => {
+          bodyTranslateY.setValue(0);
+          setIsOpen(false);
+        });
       }
     }
   }, [translationYValue]);
@@ -98,6 +106,7 @@ const HomeBody = () => {
   const navigateTo = (screen) => screen && navigator.navigate(screen);
   return (
     <PanGestureHandler
+      enabled={!isOpen}
       onHandlerStateChange={(e) =>
         setTranslationYValue(e.nativeEvent.translationY)
       }
@@ -126,15 +135,15 @@ const HomeBody = () => {
             ],
           }}
         >
-          <TouchableOpacity onPress={goBackHome}>
+          <TouchableOpacity onPress={goBackHome} style={{ width: 50 }}>
             <Animated.View
               style={{
-                padding: Animated.interpolate(translationY, {
+                paddingBottom: Animated.interpolate(translationY, {
                   inputRange: [0, 1],
-                  outputRange: [0, 12],
+                  outputRange: [0, 24],
                   extrapolate: Extrapolate.CLAMP,
                 }),
-                width: 50,
+
                 alignItems: 'center',
                 // backgroundColor: 'red',
                 opacity: Animated.interpolate(translationY, {
@@ -147,26 +156,21 @@ const HomeBody = () => {
               <Ionicons name="md-arrow-back" size={26} color="black" />
             </Animated.View>
           </TouchableOpacity>
-          <Animated.View
+          <Search />
+          <Spacing b={8} />
+          <Animated.ScrollView
+            scrollEnabled={isOpen}
+            showsVerticalScrollIndicator={false}
             style={{
-              transform: [
-                {
-                  translateY: Animated.interpolate(translationY, {
-                    inputRange: [0, 1],
-                    outputRange: [0, 24],
-                    extrapolate: Extrapolate.CLAMP,
-                  }),
-                },
-              ],
+              marginBottom: 220,
             }}
           >
-            <Search />
-            <Spacing t={8} />
-            <SectionHeader title="Quick Access" />
             <View style={styles.categories}>
+              <SectionHeader title="Quick Access" />
               <FlatList
                 numColumns={2}
                 data={quickAccess}
+                keyExtractor={(item) => item.label}
                 renderItem={({ item }) => (
                   <QuickAccess
                     {...item}
@@ -181,10 +185,21 @@ const HomeBody = () => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={categories}
+                keyExtractor={(item) => item.title}
+                renderItem={({ item }) => <Category {...item} />}
+              />
+              <Spacing t={8} />
+              <SectionHeader title="Categories" button="View More" />
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={categories}
+                keyExtractor={(item) => item.title}
                 renderItem={({ item }) => <Category {...item} />}
               />
             </View>
-          </Animated.View>
+            <Spacing b={20} />
+          </Animated.ScrollView>
         </Animated.View>
       </Animated.View>
     </PanGestureHandler>
@@ -203,7 +218,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   content: {
-    paddingVertical: 12,
+    paddingTop: 12,
     paddingHorizontal: 24,
   },
   categories: {},
