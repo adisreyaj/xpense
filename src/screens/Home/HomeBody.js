@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
+  ScrollView,
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
@@ -263,6 +264,7 @@ const HomeBody = ({ translationY }) => {
           </TouchableOpacity>
           <Animated.View
             style={{
+              height: Dimensions.get('screen').height - 180,
               transform: [
                 {
                   translateY: translationY.interpolate({
@@ -278,12 +280,10 @@ const HomeBody = ({ translationY }) => {
               <Search />
             </Animated.View>
             <Spacing b={8} />
-            <Animated.ScrollView
+            <ScrollView
               scrollEnabled={isOpen}
               showsVerticalScrollIndicator={false}
-              style={{
-                marginBottom: 220,
-              }}
+              style={{ flex: 1, flexGrow: 1 }}
             >
               <Animated.View style={quickAccessHeaderTransitions}>
                 <SectionHeader title="Quick Access" />
@@ -327,8 +327,28 @@ const HomeBody = ({ translationY }) => {
                   </Animated.View>
                 )}
               />
+              <Spacing t={8} />
+              <Animated.View style={categoriesHeaderTransitions}>
+                <SectionHeader title="Categories" button="View More" />
+              </Animated.View>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={categories}
+                keyExtractor={(item) => item.title}
+                renderItem={({ item, index }) => (
+                  <Animated.View
+                    style={{
+                      flex: 1,
+                      ...categoriesItemTransitions(index),
+                    }}
+                  >
+                    <Category {...item} />
+                  </Animated.View>
+                )}
+              />
               <Spacing b={20} />
-            </Animated.ScrollView>
+            </ScrollView>
           </Animated.View>
         </Animated.View>
       </Animated.View>
@@ -351,5 +371,4 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingHorizontal: 24,
   },
-  categories: {},
 });
