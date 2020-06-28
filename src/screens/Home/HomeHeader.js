@@ -7,15 +7,20 @@ import {
   StatusBar,
   Animated,
   Easing,
+  TouchableOpacity,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Constants from 'expo-constants';
+import { human } from 'react-native-typography';
+import { useNavigation } from '@react-navigation/native';
 
 import { THEME } from '../../config/theme';
-import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import Spacing from '../../components/ui/Spacing';
+import { SCREENS } from '../../config/screens';
+
 const HomeHeader = () => {
+  const navigator = useNavigation();
   const elementsToAnimated = Array(3).fill(true);
   let translateValues = elementsToAnimated.map(() => new Animated.Value(0));
   const staggeredAnimations = translateValues.map((value) =>
@@ -29,10 +34,68 @@ const HomeHeader = () => {
   );
   const animation = Animated.stagger(100, staggeredAnimations);
 
+  const welcomeMessageTransitions = {
+    opacity: translateValues[0].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: translateValues[0].interpolate({
+          inputRange: [0, 1],
+          outputRange: [30, 0],
+        }),
+      },
+    ],
+  };
+
+  const subtitleTransitions = {
+    opacity: translateValues[1].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: translateValues[1].interpolate({
+          inputRange: [0, 1],
+          outputRange: [30, 0],
+        }),
+      },
+    ],
+  };
+
+  const balanceTransitions = {
+    opacity: translateValues[2].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: translateValues[2].interpolate({
+          inputRange: [0, 1],
+          outputRange: [30, 0],
+        }),
+      },
+    ],
+  };
+
+  const profileImageTransitions = {
+    transform: [
+      {
+        scale: translateValues[1].interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 1],
+        }),
+      },
+    ],
+  };
+
   useEffect(() => {
     translateValues.forEach((value) => value.setValue(0));
     animation.start();
   }, []);
+
+  const gotoProfilePage = () => navigator.navigate(SCREENS.profile);
 
   return (
     <View style={styles.header}>
@@ -57,44 +120,14 @@ const HomeHeader = () => {
             style={[
               human.title1White,
               TYPOGRAPHY.subheading,
-              {
-                opacity: translateValues[0].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                }),
-                transform: [
-                  {
-                    translateY: translateValues[0].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [30, 0],
-                    }),
-                  },
-                ],
-              },
+              welcomeMessageTransitions,
             ]}
           >
             Hi Maicy,
           </Animated.Text>
           <Spacing t={3} />
           <Animated.Text
-            style={[
-              human.bodyWhite,
-              TYPOGRAPHY.body,
-              {
-                opacity: translateValues[1].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                }),
-                transform: [
-                  {
-                    translateY: translateValues[1].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [30, 0],
-                    }),
-                  },
-                ],
-              },
-            ]}
+            style={[human.bodyWhite, TYPOGRAPHY.body, subtitleTransitions]}
           >
             Your current balance is
           </Animated.Text>
@@ -106,19 +139,8 @@ const HomeHeader = () => {
               {
                 fontSize: 46,
                 paddingTop: 20,
-                opacity: translateValues[2].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                }),
-                transform: [
-                  {
-                    translateY: translateValues[2].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [30, 0],
-                    }),
-                  },
-                ],
               },
+              balanceTransitions,
             ]}
           >
             $45,320
@@ -127,22 +149,17 @@ const HomeHeader = () => {
         <Animated.View
           style={{
             ...styles.userImage,
+            ...profileImageTransitions,
             elevation: 25,
-            transform: [
-              {
-                scale: translateValues[1].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                }),
-              },
-            ],
           }}
         >
-          <Image
-            source={require('../../../assets/images/avatar.png')}
-            resizeMode="contain"
-            style={styles.userImage}
-          />
+          <TouchableOpacity onPress={gotoProfilePage}>
+            <Image
+              source={require('../../../assets/images/avatar.png')}
+              resizeMode="contain"
+              style={styles.userImage}
+            />
+          </TouchableOpacity>
         </Animated.View>
       </View>
     </View>

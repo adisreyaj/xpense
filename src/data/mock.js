@@ -45,22 +45,22 @@ export const transactionsItems = [
 
 export const quickAccess = [
   {
-    label: 'Transactions',
+    title: 'Transactions',
     color: '#19D093',
     route: SCREENS.transactions,
   },
   {
-    label: 'Budget',
+    title: 'Budget',
     color: '#FF594B',
     route: SCREENS.transactions,
   },
   {
-    label: 'Accounts',
+    title: 'Accounts',
     color: '#EBAC48',
     route: SCREENS.transactions,
   },
   {
-    label: 'Payments',
+    title: 'Payments',
     color: '#2F26DB',
     route: SCREENS.transactions,
   },

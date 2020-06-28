@@ -15,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SCREENS } from './src/config/screens';
 import Home from './src/screens/Home/Home';
 import Transactions from './src/screens/Transactions/Transactions';
+import Profile from './src/screens/Profile/Profile';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,10 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={SCREENS.home} headerMode="none">
           <Stack.Screen name={SCREENS.home} component={Home}></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.profile}
+            component={Profile}
+          ></Stack.Screen>
           <Stack.Screen
             name={SCREENS.transactions}
             component={Transactions}

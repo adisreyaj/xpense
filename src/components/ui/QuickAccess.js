@@ -11,7 +11,7 @@ import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import { THEME } from '../../config/theme';
 
-const QuickAccess = ({ label, color, route, clicked }) => {
+const QuickAccess = ({ title, color, route, clicked }) => {
   return (
     <TouchableOpacity
       style={styles.cardContainer}
@@ -20,7 +20,7 @@ const QuickAccess = ({ label, color, route, clicked }) => {
     >
       <View style={{ ...styles.card }}>
         <View style={{ ...styles.dot, backgroundColor: color }}></View>
-        <Text style={[human.title3White, TYPOGRAPHY.subheading]}>{label}</Text>
+        <Text style={[human.title3White, TYPOGRAPHY.subheading]}>{title}</Text>
         <Text style={[human.footnoteWhite, TYPOGRAPHY.body]}>150 Items</Text>
       </View>
     </TouchableOpacity>

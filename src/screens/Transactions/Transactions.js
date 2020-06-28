@@ -1,20 +1,11 @@
 import React, { useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Animated,
-  Easing,
-} from 'react-native';
-import Constants from 'expo-constants';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, View, FlatList, Animated, Easing } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import { THEME } from '../../config/theme';
 import SectionHeader from '../../components/ui/SectionHeader';
 import TransactionItem from './TransactionItem';
 import { transactionsItems } from '../../data/mock';
-import { useNavigation } from '@react-navigation/native';
+import Header from '../../components/ui/Header';
 
 const Transactions = () => {
   const navigator = useNavigation();
@@ -28,6 +19,21 @@ const Transactions = () => {
       useNativeDriver: true,
     })
   );
+
+  const listItemTransitions = (index) => ({
+    opacity: listItemValues[index].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    transform: [
+      {
+        translateY: listItemValues[index].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  });
   useEffect(() => {
     // Reset all the values to 0 on load
     listItemValues.forEach((value) => value.setValue(0));
@@ -36,15 +42,7 @@ const Transactions = () => {
 
   return (
     <View>
-      <View style={styles.header}>
-        <TouchableOpacity
-          activeOpacity={0.9}
-          style={styles.back}
-          onPress={goBack}
-        >
-          <Ionicons name="md-arrow-back" size={26} color="#fff" />
-        </TouchableOpacity>
-      </View>
+      <Header clicked={goBack} />
       <View style={styles.body}>
         <SectionHeader
           title="Transactions"
@@ -55,22 +53,7 @@ const Transactions = () => {
           data={transactionsItems}
           keyExtractor={(item) => item.title}
           renderItem={({ item, index }) => (
-            <Animated.View
-              style={{
-                opacity: listItemValues[index].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 1],
-                }),
-                transform: [
-                  {
-                    translateY: listItemValues[index].interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [50, 0],
-                    }),
-                  },
-                ],
-              }}
-            >
+            <Animated.View style={listItemTransitions(index)}>
               <TransactionItem key={index} {...item} />
             </Animated.View>
           )}
@@ -83,18 +66,6 @@ const Transactions = () => {
 export default Transactions;
 
 const styles = StyleSheet.create({
-  header: {
-    paddingHorizontal: 16,
-    backgroundColor: THEME.primary,
-    width: '100%',
-    height: 150,
-    paddingTop: Constants.statusBarHeight + 24,
-  },
-  back: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-  },
   body: {
     width: '100%',
     backgroundColor: '#fff',
