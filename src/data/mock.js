@@ -83,3 +83,26 @@ export const categories = [
     icon: 'cart',
   },
 ];
+
+export const profileSettings = [
+  {
+    title: 'Income',
+    subtitle: 'Manage your budgets',
+    icon: 'account-balance-wallet',
+  },
+  {
+    title: 'Notifications',
+    subtitle: 'Manage your alerts',
+    icon: 'notifications',
+  },
+  {
+    title: 'General',
+    subtitle: 'Configure app',
+    icon: 'settings',
+  },
+  {
+    title: 'About',
+    subtitle: 'About Xpense',
+    icon: 'info',
+  },
+];
