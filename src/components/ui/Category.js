@@ -21,7 +21,7 @@ const Category = ({ title, subtitle, icon }) => {
         </View>
         <View>
           {title && (
-            <Text style={[human.title3, TYPOGRAPHY.heading]}>{title}</Text>
+            <Text style={[human.subhead, TYPOGRAPHY.heading]}>{title}</Text>
           )}
           {subtitle && (
             <Text style={[human.footnote, TYPOGRAPHY.body]}>{subtitle}</Text>
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     backgroundColor: `${THEME.primary}30`,
-    width: 50,
-    height: 50,
+    width: Dimensions.get('screen').width / 10,
+    height: Dimensions.get('screen').width / 10,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',

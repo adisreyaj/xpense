@@ -20,7 +20,7 @@ const QuickAccess = ({ title, color, route, clicked }) => {
     >
       <View style={{ ...styles.card }}>
         <View style={{ ...styles.dot, backgroundColor: color }}></View>
-        <Text style={[human.title3White, TYPOGRAPHY.subheading]}>{title}</Text>
+        <Text style={[human.subheadWhite, TYPOGRAPHY.subheading]}>{title}</Text>
         <Text style={[human.footnoteWhite, TYPOGRAPHY.body]}>150 Items</Text>
       </View>
     </TouchableOpacity>
