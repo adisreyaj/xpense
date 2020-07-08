@@ -16,6 +16,7 @@ import { SCREENS } from './src/config/screens';
 import Home from './src/screens/Home/Home';
 import Transactions from './src/screens/Transactions/Transactions';
 import Profile from './src/screens/Profile/Profile';
+import Categories from './src/screens/Categories/Categories';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,10 @@ export default function App() {
           <Stack.Screen
             name={SCREENS.transactions}
             component={Transactions}
+          ></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.categories}
+            component={Categories}
           ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

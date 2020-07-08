@@ -6,6 +6,7 @@ import SectionHeader from '../../components/ui/SectionHeader';
 import TransactionItem from './TransactionItem';
 import { transactionsItems } from '../../data/mock';
 import Header from '../../components/ui/Header';
+import { THEME } from '../../config/theme';
 
 const Transactions = () => {
   const navigator = useNavigation();
@@ -68,7 +69,7 @@ export default Transactions;
 const styles = StyleSheet.create({
   body: {
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: THEME.bg,
     height: '100%',
     marginTop: -30,
     borderTopLeftRadius: 30,

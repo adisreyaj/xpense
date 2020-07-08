@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { THEME } from '../../config/theme';
 import { TYPOGRAPHY } from '../../config/typography';
 
-const Buttons = ({ children, color = 'primary', type = 'base' }) => {
+const Buttons = ({ children, color = 'primary', type = 'base', click }) => {
   return (
     <TouchableOpacity
+      onPress={() => click()}
       style={[buttonTypes[type], styles[color]]}
       activeOpacity={0.8}
     >

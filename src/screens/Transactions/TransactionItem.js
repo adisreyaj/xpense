@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: `${THEME.bg}50`,
+    backgroundColor: '#fff',
     borderRadius: 12,
   },
   contentLeft: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    backgroundColor: '#fff',
+    backgroundColor: `${THEME.primary}10`,
     width: 50,
     height: 50,
     borderRadius: 8,

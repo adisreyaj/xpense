@@ -19,6 +19,7 @@ import Category from '../../components/ui/Category';
 import SectionHeader from '../../components/ui/SectionHeader';
 import { useNavigation } from '@react-navigation/native';
 import { quickAccess, categories } from '../../data/mock';
+import { SCREENS } from '../../config/screens';
 
 const HomeBody = ({ translationY }) => {
   const navigator = useNavigation();
@@ -309,7 +310,11 @@ const HomeBody = ({ translationY }) => {
 
               <Spacing t={8} />
               <Animated.View style={categoriesHeaderTransitions}>
-                <SectionHeader title="Categories" button="View More" />
+                <SectionHeader
+                  title="Categories"
+                  button="View More"
+                  buttonClicked={() => navigateTo(SCREENS.categories)}
+                />
               </Animated.View>
               <FlatList
                 horizontal

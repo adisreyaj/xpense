@@ -6,7 +6,7 @@ import { TYPOGRAPHY } from '../../config/typography';
 import { THEME } from '../../config/theme';
 import Buttons from './Buttons';
 
-const SectionHeader = ({ title, subtitle, button }) => {
+const SectionHeader = ({ title, subtitle, button, buttonClicked }) => {
   return title ? (
     <View style={styles.transactionsHeader}>
       <View>
@@ -24,7 +24,7 @@ const SectionHeader = ({ title, subtitle, button }) => {
         )}
       </View>
       {button && (
-        <Buttons type="fade" color="fade">
+        <Buttons type="fade" color="fade" click={() => buttonClicked()}>
           {button}
         </Buttons>
       )}
