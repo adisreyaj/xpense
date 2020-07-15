@@ -33,7 +33,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={SCREENS.home} headerMode="none">
+        <Stack.Navigator
+          initialRouteName={SCREENS.categories}
+          headerMode="none"
+        >
           <Stack.Screen name={SCREENS.home} component={Home}></Stack.Screen>
           <Stack.Screen
             name={SCREENS.profile}

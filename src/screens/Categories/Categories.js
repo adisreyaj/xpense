@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,9 +6,10 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  Animated,
+  Easing,
 } from 'react-native';
 import Constants from 'expo-constants';
-
 import SectionHeader from '../../components/ui/SectionHeader';
 import Spacing from '../../components/ui/Spacing';
 import { TYPOGRAPHY } from '../../config/typography';
@@ -59,6 +60,36 @@ const mockCategories = [
 const Categories = () => {
   const navigator = useNavigation();
   const goBack = () => navigator.goBack();
+  const itemAnimationValues = mockCategories.map(() => new Animated.Value(0));
+  const itemAnimations = itemAnimationValues.map((value) =>
+    Animated.timing(value, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.bezier(0.17, 0.67, 0.82, 0.98),
+      useNativeDriver: true,
+    })
+  );
+
+  const itemTransitions = (index) => ({
+    transform: [
+      {
+        translateY: itemAnimationValues[index].interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+    opacity: itemAnimationValues[index].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+  });
+
+  useEffect(() => {
+    itemAnimationValues.forEach((value) => value.setValue(0));
+    Animated.stagger(50, itemAnimations).start();
+  }, []);
+
   return (
     <View>
       <Header clicked={goBack} />
@@ -72,8 +103,17 @@ const Categories = () => {
           numColumns={3}
           keyExtractor={(item) => item.label}
           data={mockCategories}
-          renderItem={({ item }) => {
-            return <CategoriesIcons {...item} />;
+          renderItem={({ item, index }) => {
+            return (
+              <Animated.View
+                style={{
+                  flex: 1,
+                  ...itemTransitions(index),
+                }}
+              >
+                <CategoriesIcons {...item} />
+              </Animated.View>
+            );
           }}
         />
       </View>
