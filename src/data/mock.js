@@ -4,7 +4,7 @@ export const transactionsItems = [
   {
     title: 'Paid for trip to office',
     category: 'Transport',
-    icon: 'car',
+    icon: 'transportation',
     color: 'blue',
     amount: '200',
     type: 'debit',
@@ -19,15 +19,15 @@ export const transactionsItems = [
   },
   {
     title: 'Salary for Month June',
-    category: 'salary',
-    icon: 'cash',
+    category: 'Salary',
+    icon: 'work',
     color: 'orange',
     amount: '35,000',
     type: 'credit',
   },
   {
     title: 'Groceries for Month June',
-    category: 'shopping',
+    category: 'Shopping',
     icon: 'shopping',
     color: 'pink',
     amount: '120',
@@ -35,8 +35,8 @@ export const transactionsItems = [
   },
   {
     title: 'Purchase iPhone X Max Pro',
-    category: 'shopping',
-    icon: 'cart',
+    category: 'Shopping',
+    icon: 'shopping',
     color: 'red',
     amount: '1999',
     type: 'debit',
@@ -70,7 +70,7 @@ export const categories = [
   {
     title: 'Transport',
     subtitle: '26 Jun $50',
-    icon: 'car',
+    icon: 'transportation',
   },
   {
     title: 'Food',
@@ -80,7 +80,7 @@ export const categories = [
   {
     title: 'Shopping',
     subtitle: '26 Jun $50',
-    icon: 'cart',
+    icon: 'shopping',
   },
 ];
 

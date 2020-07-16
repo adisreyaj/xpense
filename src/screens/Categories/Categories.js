@@ -3,13 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   FlatList,
   Image,
   Animated,
   Easing,
 } from 'react-native';
-import Constants from 'expo-constants';
 import SectionHeader from '../../components/ui/SectionHeader';
 import Spacing from '../../components/ui/Spacing';
 import { TYPOGRAPHY } from '../../config/typography';
@@ -17,41 +15,51 @@ import { human } from 'react-native-typography';
 import Header from '../../components/ui/Header';
 import { useNavigation } from '@react-navigation/native';
 import { THEME } from '../../config/theme';
+import CategoryIcon from '../../components/ui/CategoryIcon';
 
 const mockCategories = [
   {
+    id: 'transportation',
     label: 'Transportation',
     icon: require('../../../assets/images/transport.png'),
   },
   {
+    id: 'food',
     label: 'Food',
     icon: require('../../../assets/images/food.png'),
   },
   {
+    id: 'shopping',
     label: 'Shopping',
     icon: require('../../../assets/images/shopping.png'),
   },
   {
+    id: 'work',
     label: 'Work',
     icon: require('../../../assets/images/work.png'),
   },
   {
+    id: 'rent',
     label: 'Rent',
     icon: require('../../../assets/images/rent.png'),
   },
   {
+    id: 'gym',
     label: 'Gym',
     icon: require('../../../assets/images/gym.png'),
   },
   {
+    id: 'hospital',
     label: 'Hospital',
     icon: require('../../../assets/images/hospital.png'),
   },
   {
+    id: 'clothing',
     label: 'Clothing',
     icon: require('../../../assets/images/apparels.png'),
   },
   {
+    id: 'bills',
     label: 'Bills',
     icon: require('../../../assets/images/bills.png'),
   },
@@ -97,6 +105,7 @@ const Categories = () => {
         <SectionHeader
           title="Categories"
           subtitle="Select a category to view stats"
+          button="Edit Categories"
         />
         <Spacing t={4} />
         <FlatList
@@ -136,7 +145,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CategoriesIcons = ({ label, icon }) => {
+const CategoriesIcons = ({ label, id }) => {
   return (
     <View
       style={{
@@ -157,7 +166,7 @@ const CategoriesIcons = ({ label, icon }) => {
             borderRadius: 100,
           }}
         >
-          <Image source={icon} resizeMode="contain" style={{ flex: 1 }} />
+          <CategoryIcon icon={id} />
         </View>
         <Spacing b={4} />
         <Text style={[human.body, TYPOGRAPHY.subheading, { opacity: 0.6 }]}>

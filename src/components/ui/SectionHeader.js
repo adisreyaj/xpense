@@ -5,12 +5,14 @@ import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import { THEME } from '../../config/theme';
 import Buttons from './Buttons';
+import Spacing from './Spacing';
 
 const SectionHeader = ({ title, subtitle, button, buttonClicked }) => {
   return title ? (
     <View style={styles.transactionsHeader}>
       <View>
         <Text style={[human.title2, TYPOGRAPHY.subheading]}>{title}</Text>
+        <Spacing b={2} />
         {subtitle && (
           <Text
             style={[

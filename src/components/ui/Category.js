@@ -1,24 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { THEME } from '../../config/theme';
 import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
+import CategoryIcon from './CategoryIcon';
 
 const Category = ({ title, subtitle, icon }) => {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
-        <View style={styles.icon}>
-          {icon && (
-            <MaterialCommunityIcons
-              name={icon}
-              size={24}
-              color={THEME.primary}
-            />
-          )}
-        </View>
+        <View style={styles.icon}>{icon && <CategoryIcon icon={icon} />}</View>
         <View>
           {title && (
             <Text style={[human.subhead, TYPOGRAPHY.heading]}>{title}</Text>
@@ -50,9 +42,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   icon: {
-    backgroundColor: `${THEME.primary}30`,
-    width: Dimensions.get('screen').width / 10,
-    height: Dimensions.get('screen').width / 10,
+    width: Dimensions.get('screen').width / 8,
+    height: Dimensions.get('screen').width / 8,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',

@@ -14,6 +14,13 @@ const Header = ({ clicked, height = 150 }) => {
       >
         <Ionicons name="md-arrow-back" size={26} color="#fff" />
       </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        style={styles.back}
+        onPress={clicked}
+      >
+        <Ionicons name="md-search" size={26} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -26,6 +33,9 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.primary,
     width: '100%',
     paddingTop: Constants.statusBarHeight + 24,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   back: {
     flexDirection: 'row',

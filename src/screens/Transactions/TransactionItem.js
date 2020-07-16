@@ -5,6 +5,7 @@ import { THEME } from '../../config/theme';
 import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import Spacing from '../../components/ui/Spacing';
+import CategoryIcon from '../../components/ui/CategoryIcon';
 
 const TransactionItem = ({ title, category, icon, color, type, amount }) => {
   const arrowIcons = {
@@ -17,7 +18,7 @@ const TransactionItem = ({ title, category, icon, color, type, amount }) => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <View style={styles.icon}>
-            <MaterialCommunityIcons name={icon} size={24} color={color} />
+            <CategoryIcon icon={icon} />
           </View>
           <Spacing r={3} />
           <View>
@@ -62,10 +63,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    backgroundColor: `${THEME.primary}10`,
-    width: 50,
-    height: 50,
-    borderRadius: 8,
+    width: 55,
+    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
   },
