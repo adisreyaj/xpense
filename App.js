@@ -17,6 +17,7 @@ import Home from './src/screens/Home/Home';
 import Transactions from './src/screens/Transactions/Transactions';
 import Profile from './src/screens/Profile/Profile';
 import Categories from './src/screens/Categories/Categories';
+import AddExpense from './src/screens/AddExpense/AddExpense';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,13 @@ export default function App() {
           <Stack.Screen
             name={SCREENS.categories}
             component={Categories}
+          ></Stack.Screen>
+          <Stack.Screen
+            options={{
+              animationEnabled: false,
+            }}
+            name={SCREENS.addExpense}
+            component={AddExpense}
           ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

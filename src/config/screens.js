@@ -3,4 +3,5 @@ export const SCREENS = {
   transactions: 'TRANSACTIONS',
   profile: 'PROFILE',
   categories: 'CATEGORIES',
+  addExpense: 'ADD_EXPENSE',
 };

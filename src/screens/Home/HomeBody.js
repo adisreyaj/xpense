@@ -1,18 +1,14 @@
-import React, { useState, useEffect, useRef, createRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
-  View,
   Dimensions,
   FlatList,
-  TouchableOpacity,
   Animated,
   Easing,
   ScrollView,
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
 
-import Search from '../../components/ui/Search';
 import QuickAccess from '../../components/ui/QuickAccess';
 import Spacing from '../../components/ui/Spacing';
 import Category from '../../components/ui/Category';
@@ -23,11 +19,11 @@ import { SCREENS } from '../../config/screens';
 
 const HomeBody = ({ translationY }) => {
   const navigator = useNavigation();
+  const [appLoaded, setAppLoaded] = useState(false);
   const [translationYValue, setTranslationYValue] = useState(undefined);
   const [drawerActive, setDrawerActive] = useState(true);
   // Animations Preps
   const bodyTranslateY = new Animated.Value(0);
-  const searchTranslate = new Animated.Value(0);
   let quickAccessAnimationValues = [true, ...quickAccess].map(
     () => new Animated.Value(0)
   );
@@ -53,13 +49,6 @@ const HomeBody = ({ translationY }) => {
     })
   );
 
-  const searchAnimation = Animated.timing(searchTranslate, {
-    toValue: 1,
-    duration: 200,
-    easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
-    useNativeDriver: true,
-  });
-
   const drawerSlideInAnimation = Animated.timing(translationY, {
     toValue: 0,
     duration: 500,
@@ -67,17 +56,12 @@ const HomeBody = ({ translationY }) => {
     useNativeDriver: true,
   });
 
-  const slideDownAnimation = Animated.timing(translationY, {
-    toValue: 0,
-    duration: 300,
-    easing: Easing.bezier(0.17, 0.67, 0.83, 0.98),
-    useNativeDriver: true,
-  });
-
   // Run once on start
   useEffect(() => {
     // Reset all the values to 0 on load
-    searchTranslate.setValue(0);
+    setDrawerActive(true);
+    bodyTranslateY.setValue(0);
+    setTranslationYValue(undefined);
     quickAccessAnimationValues.forEach((value) => value.setValue(0));
     categoriesAnimationValues.forEach((value) => value.setValue(0));
     const quickAccessStagger = Animated.stagger(80, quickAccessAnimations);
@@ -86,10 +70,9 @@ const HomeBody = ({ translationY }) => {
     // Start staggered animation
     Animated.sequence([
       drawerSlideInAnimation,
-      searchAnimation,
       quickAccessStagger,
       categoriesStagger,
-    ]).start();
+    ]).start(() => setAppLoaded(true));
   }, []);
 
   useEffect(() => {
@@ -143,39 +126,18 @@ const HomeBody = ({ translationY }) => {
     ],
   };
 
-  const backButtonTransition = {
-    opacity: translationY.interpolate({
-      inputRange: [0, 0.8, 1],
-      outputRange: [0, 0, 1],
-      extrapolate: 'clamp',
-    }),
-  };
-
-  const searchTransitions = {
-    opacity: quickAccessAnimationValues[0].interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-    }),
-    transform: [
-      {
-        translateY: quickAccessAnimationValues[0].interpolate({
-          inputRange: [0, 1],
-          outputRange: [50, 0],
-        }),
-      },
-    ],
-  };
-
   const quickAccessHeaderTransitions = {
     opacity: quickAccessAnimationValues[0].interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
+      extrapolate: 'clamp',
     }),
     transform: [
       {
         translateY: quickAccessAnimationValues[0].interpolate({
           inputRange: [0, 1],
           outputRange: [50, 0],
+          extrapolate: 'clamp',
         }),
       },
     ],
@@ -185,12 +147,14 @@ const HomeBody = ({ translationY }) => {
     opacity: quickAccessAnimationValues[index + 1].interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
+      extrapolate: 'clamp',
     }),
     transform: [
       {
         translateY: quickAccessAnimationValues[index + 1].interpolate({
           inputRange: [0, 1],
           outputRange: [50, 0],
+          extrapolate: 'clamp',
         }),
       },
     ],
@@ -200,12 +164,14 @@ const HomeBody = ({ translationY }) => {
     opacity: categoriesAnimationValues[0].interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
+      extrapolate: 'clamp',
     }),
     transform: [
       {
         translateY: categoriesAnimationValues[0].interpolate({
           inputRange: [0, 1],
           outputRange: [50, 0],
+          extrapolate: 'clamp',
         }),
       },
     ],
@@ -215,12 +181,14 @@ const HomeBody = ({ translationY }) => {
     opacity: categoriesAnimationValues[index + 1].interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
+      extrapolate: 'clamp',
     }),
     transform: [
       {
         translateY: categoriesAnimationValues[index + 1].interpolate({
           inputRange: [0, 1],
           outputRange: [50, 0],
+          extrapolate: 'clamp',
         }),
       },
     ],
@@ -228,11 +196,9 @@ const HomeBody = ({ translationY }) => {
 
   const navigateTo = (screen) => screen && navigator.navigate(screen);
 
-  const goBackHome = () => slideDownAnimation.start(() => {});
-
   return (
     <PanGestureHandler
-      enabled={drawerActive}
+      enabled={appLoaded && drawerActive}
       onHandlerStateChange={(e) =>
         setTranslationYValue(e.nativeEvent.translationY)
       }
@@ -249,16 +215,6 @@ const HomeBody = ({ translationY }) => {
             ...contentTransitions,
           }}
         >
-          {/* <TouchableOpacity onPress={goBackHome} style={{ width: 50 }}>
-            <Animated.View
-              style={{
-                alignItems: 'center',
-                ...backButtonTransition,
-              }}
-            >
-              <Ionicons name="md-arrow-back" size={26} color="black" />
-            </Animated.View>
-          </TouchableOpacity> */}
           <Animated.View
             style={{
               height: Dimensions.get('screen').height - 180,
@@ -300,6 +256,7 @@ const HomeBody = ({ translationY }) => {
               </Animated.View>
               <FlatList
                 numColumns={2}
+                scrollEnabled={false}
                 data={quickAccess}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item, index }) => (
@@ -326,9 +283,9 @@ const HomeBody = ({ translationY }) => {
                 />
               </Animated.View>
               <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={categories}
+                numColumns={2}
+                scrollEnabled={false}
+                data={categories.slice(0, 4)}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item, index }) => (
                   <Animated.View
@@ -341,31 +298,7 @@ const HomeBody = ({ translationY }) => {
                   </Animated.View>
                 )}
               />
-              <Spacing t={8} />
-              <Animated.View style={categoriesHeaderTransitions}>
-                <SectionHeader
-                  title="Categories"
-                  button="View More"
-                  buttonClicked={() => navigateTo(SCREENS.categories)}
-                />
-              </Animated.View>
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={categories}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item, index }) => (
-                  <Animated.View
-                    style={{
-                      flex: 1,
-                      ...categoriesItemTransitions(index),
-                    }}
-                  >
-                    <Category {...item} />
-                  </Animated.View>
-                )}
-              />
-              <Spacing b={20} />
+              <Spacing b={10} />
             </ScrollView>
           </Animated.View>
         </Animated.View>

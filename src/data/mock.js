@@ -82,6 +82,26 @@ export const categories = [
     subtitle: '26 Jun $50',
     icon: 'shopping',
   },
+  {
+    title: 'Hospital',
+    subtitle: '26 Jun $50',
+    icon: 'hospital',
+  },
+  {
+    title: 'Gym',
+    subtitle: '26 Jun $50',
+    icon: 'gym',
+  },
+  {
+    title: 'Work',
+    subtitle: '26 Jun $50',
+    icon: 'work',
+  },
+  {
+    title: 'Bills',
+    subtitle: '26 Jun $50',
+    icon: 'bills',
+  },
 ];
 
 export const profileSettings = [

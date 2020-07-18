@@ -46,7 +46,7 @@ const buttonTypes = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 16,
-    elevation: 5,
+    elevation: 2,
     alignItems: 'center',
   },
   fade: {
