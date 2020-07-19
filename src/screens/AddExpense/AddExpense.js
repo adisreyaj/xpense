@@ -15,6 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { human } from 'react-native-typography';
 import { Formik } from 'formik';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Spacing from '../../components/ui/Spacing';
 import Header from '../../components/ui/Header';
@@ -24,6 +26,7 @@ import { categories } from '../../data/mock';
 import CategoryIcon from '../../components/ui/CategoryIcon';
 import Buttons from '../../components/ui/Buttons';
 import { useKeyboard } from '../../hooks/useKeyboardHeight';
+import RadioButton from '../../components/ui/RadioButton';
 
 const AddExpense = () => {
   const navigator = useNavigation();
@@ -40,6 +43,7 @@ const AddExpense = () => {
           y = 200;
           break;
         case 'amount':
+        case 'type':
           y = keyboardHeight + 100;
           break;
       }
@@ -57,6 +61,7 @@ const AddExpense = () => {
     date: new Date(),
     description: '',
     amount: '',
+    type: 'debit',
   };
 
   const bodyTransition = animatedValue.interpolate({
@@ -75,25 +80,10 @@ const AddExpense = () => {
   const goBack = () => navigator.goBack();
 
   const prettyifyDate = (date) => {
-    const month = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
     if (date) {
       const dateValue = new Date(date);
-      return `${dateValue.getDate()}-${
-        month[dateValue.getMonth()]
-      }-${dateValue.getFullYear()}`;
+      if (dateValue)
+        return `${dateValue.getDate()}/${dateValue.getMonth()}/${dateValue.getFullYear()}`;
     }
     return '';
   };
@@ -102,6 +92,7 @@ const AddExpense = () => {
       <Header clicked={goBack} title="Add New Expense" />
       <Animated.ScrollView
         ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}
         style={[
           styles.content,
           {
@@ -133,13 +124,16 @@ const AddExpense = () => {
                     style={styles.textInput}
                     placeholder="Home Rent"
                     onChangeText={handleChange('title')}
-                    onBlur={handleBlur('title')}
+                    onBlur={() => {
+                      setFocus(null);
+                      handleBlur('title');
+                    }}
                     value={values.title}
                     onFocus={() => setFocus('title')}
                   />
                 </View>
               </View>
-              <Spacing b={8} />
+              <Spacing b={10} />
               <View>
                 <Text style={[human.title3, TYPOGRAPHY.subheading]}>Date</Text>
                 <Spacing b={3} />
@@ -147,22 +141,33 @@ const AddExpense = () => {
                   style={[
                     styles.inputContainer,
                     {
+                      width: '50%',
                       borderColor: focus === 'date' ? THEME.primary : '#f3f3f3',
                     },
                   ]}
                 >
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { paddingLeft: 46 }]}
                     value={prettyifyDate(values.date)}
                     onFocus={() => {
                       setFocus('date');
-                      setShowDatePicker(true);
                     }}
+                    onBlur={() => {
+                      setFocus(null);
+                      handleBlur('date');
+                    }}
+                    onChangeText={handleChange('date')}
                   />
+                  <View style={{ position: 'absolute', top: 12, left: 16 }}>
+                    <Ionicons
+                      name="md-calendar"
+                      size={24}
+                      color={focus === 'date' ? THEME.primary : '#999'}
+                    />
+                  </View>
                   {showDatePicker && (
                     <DateTimePicker
                       value={values.date}
-                      mode="date"
                       onChange={(_, date) => {
                         setShowDatePicker(false);
                         handleChange('date')(`${date}`);
@@ -171,7 +176,7 @@ const AddExpense = () => {
                   )}
                 </View>
               </View>
-              <Spacing b={8} />
+              <Spacing b={10} />
               <View>
                 <Text style={[human.title3, TYPOGRAPHY.subheading]}>
                   Category
@@ -181,16 +186,24 @@ const AddExpense = () => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={categories}
-                    style={{
-                      marginTop: 16,
-                    }}
+                    style={{ paddingTop: 20 }}
                     keyExtractor={({ title }) => title}
                     contentContainerStyle={{}}
                     renderItem={({ item }) => {
                       return (
                         <TouchableOpacity
                           activeOpacity={0.8}
-                          style={styles.categoryItemWrapper}
+                          style={[
+                            styles.categoryItemWrapper,
+                            {
+                              transform: [
+                                {
+                                  scale:
+                                    values.category === item.title ? 1.2 : 1,
+                                },
+                              ],
+                            },
+                          ]}
                           onPress={() => handleChange('category')(item.title)}
                         >
                           <View
@@ -207,14 +220,110 @@ const AddExpense = () => {
                             <CategoryIcon icon={item.icon} />
                           </View>
                           <Spacing b={2} />
-                          <Text>{item.title}</Text>
+                          {values.category === item.title ? (
+                            <Text
+                              style={[human.caption1, TYPOGRAPHY.subheading]}
+                            >
+                              {item.title}
+                            </Text>
+                          ) : (
+                            <Text></Text>
+                          )}
                         </TouchableOpacity>
                       );
                     }}
                   />
                 </View>
               </View>
-              <Spacing b={8} />
+              <Spacing b={10} />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <View style={{ flex: 45 }}>
+                  <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                    Amount
+                  </Text>
+                  <Spacing b={3} />
+                  <View
+                    style={[
+                      styles.inputContainer,
+
+                      {
+                        borderColor:
+                          focus === 'amount' ? THEME.primary : '#f3f3f3',
+                      },
+                    ]}
+                  >
+                    <TextInput
+                      style={[styles.textInput, { paddingLeft: 46 }]}
+                      keyboardType="number-pad"
+                      onChangeText={handleChange('amount')}
+                      onBlur={() => {
+                        setFocus(null);
+                        handleBlur('amount');
+                      }}
+                      value={values.amount}
+                      onFocus={() => setFocus('amount')}
+                    />
+
+                    <View style={{ position: 'absolute', top: 12, left: 16 }}>
+                      <MaterialIcons
+                        name="credit-card"
+                        size={24}
+                        color={focus === 'amount' ? THEME.primary : '#999'}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View style={{ flex: 5 }}></View>
+                <View style={{ flex: 50 }}>
+                  <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                    Type
+                  </Text>
+                  <Spacing b={8} />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={() => handleChange('type')('debit')}
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <RadioButton selected={values.type === 'debit'} />
+                      <Spacing r={2} />
+                      <Text style={[human.body, TYPOGRAPHY.subheading]}>
+                        Debit
+                      </Text>
+                    </TouchableOpacity>
+                    <Spacing r={8} />
+                    <TouchableOpacity
+                      onPress={() => handleChange('type')('credit')}
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <RadioButton selected={values.type === 'credit'} />
+                      <Spacing r={2} />
+                      <Text style={[human.body, TYPOGRAPHY.subheading]}>
+                        Credit
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+              <Spacing b={10} />
               <View>
                 <Text style={[human.title3, TYPOGRAPHY.subheading]}>
                   Description
@@ -236,44 +345,20 @@ const AddExpense = () => {
                     style={[styles.textInput, styles.textArea]}
                     placeholder="Paid rent for the month of July"
                     onChangeText={handleChange('description')}
-                    onBlur={handleBlur('description')}
+                    onBlur={() => {
+                      setFocus(null);
+                      handleBlur('description');
+                    }}
                     value={values.description}
                     onFocus={() => setFocus('description')}
                   />
                 </View>
               </View>
-              <Spacing b={8} />
-              <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>
-                  Amount
-                </Text>
-                <Spacing b={3} />
-                <View
-                  style={[
-                    styles.inputContainer,
-
-                    {
-                      width: '50%',
-                      borderColor:
-                        focus === 'amount' ? THEME.primary : '#f3f3f3',
-                    },
-                  ]}
-                >
-                  <TextInput
-                    style={styles.textInput}
-                    keyboardType="number-pad"
-                    onChangeText={handleChange('amount')}
-                    onBlur={handleBlur('amount')}
-                    value={values.amount}
-                    onFocus={() => setFocus('amount')}
-                  />
-                </View>
-              </View>
-              <Spacing b={8} />
+              <Spacing b={10} />
               <View style={{ paddingVertical: 24 }}>
                 <Buttons click={handleSubmit}>Save</Buttons>
               </View>
-              <Spacing b={8} />
+              <Spacing b={10} />
             </View>
           )}
         </Formik>
@@ -303,12 +388,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 12,
-    width: 100,
+    width: 120,
     position: 'relative',
   },
   categoryItem: {
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 60,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
