@@ -43,13 +43,12 @@ const Transactions = () => {
 
   return (
     <View>
-      <Header clicked={goBack} />
+      <Header
+        clicked={goBack}
+        title="Transactions"
+        buttons={['back', 'search']}
+      />
       <View style={styles.body}>
-        <SectionHeader
-          title="Transactions"
-          subtitle="All your transactions can be viewed here"
-        />
-
         <FlatList
           data={transactionsItems}
           keyExtractor={(item) => item.title}

@@ -100,13 +100,8 @@ const Categories = () => {
 
   return (
     <View>
-      <Header clicked={goBack} />
+      <Header clicked={goBack} title="Categories" buttons={['back', 'edit']} />
       <View style={styles.body}>
-        <SectionHeader
-          title="Categories"
-          subtitle="Select a category to view stats"
-          button="Edit Categories"
-        />
         <Spacing t={4} />
         <FlatList
           numColumns={3}
