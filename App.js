@@ -18,6 +18,7 @@ import Transactions from './src/screens/Transactions/Transactions';
 import Profile from './src/screens/Profile/Profile';
 import Categories from './src/screens/Categories/Categories';
 import AddExpense from './src/screens/AddExpense/AddExpense';
+import Login from './src/screens/Auth/Login';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +35,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={SCREENS.home} headerMode="none">
+        <Stack.Navigator initialRouteName={SCREENS.login} headerMode="none">
+          <Stack.Screen name={SCREENS.login} component={Login}></Stack.Screen>
           <Stack.Screen name={SCREENS.home} component={Home}></Stack.Screen>
           <Stack.Screen
             name={SCREENS.profile}

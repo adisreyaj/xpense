@@ -4,4 +4,5 @@ export const SCREENS = {
   profile: 'PROFILE',
   categories: 'CATEGORIES',
   addExpense: 'ADD_EXPENSE',
+  login: 'LOGIN',
 };
