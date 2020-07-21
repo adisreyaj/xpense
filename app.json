@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -23,7 +21,7 @@
       "favicon": "./assets/favicon.png"
     },
     "experiments": {
-      "redesignedLogBox": true
+      "redesignedLogBox": false
     },
     "android": {
       "package": "dev.sreyaj.xpense"

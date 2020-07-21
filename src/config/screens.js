@@ -5,4 +5,5 @@ export const SCREENS = {
   categories: 'CATEGORIES',
   addExpense: 'ADD_EXPENSE',
   login: 'LOGIN',
+  lock: 'LOCK',
 };

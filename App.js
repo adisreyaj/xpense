@@ -19,7 +19,9 @@ import Profile from './src/screens/Profile/Profile';
 import Categories from './src/screens/Categories/Categories';
 import AddExpense from './src/screens/AddExpense/AddExpense';
 import Login from './src/screens/Auth/Login';
+import LockScreen from './src/screens/Auth/LockScreen';
 
+console.disableYellowBox = true;
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -30,12 +32,15 @@ export default function App() {
     Quicksand_700Bold,
     Oswald_400Regular,
   });
-  console.disableYellowBox = true;
   if (!fontsLoaded) return <AppLoading />;
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={SCREENS.login} headerMode="none">
+        <Stack.Navigator initialRouteName={SCREENS.lock} headerMode="none">
+          <Stack.Screen
+            name={SCREENS.lock}
+            component={LockScreen}
+          ></Stack.Screen>
           <Stack.Screen name={SCREENS.login} component={Login}></Stack.Screen>
           <Stack.Screen name={SCREENS.home} component={Home}></Stack.Screen>
           <Stack.Screen
