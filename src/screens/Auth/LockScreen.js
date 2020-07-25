@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
 import { human } from 'react-native-typography';
-import { useNavigation } from '@react-navigation/native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,10 +9,11 @@ import Spacing from '../../components/ui/Spacing';
 import { THEME } from '../../config/theme';
 import { TYPOGRAPHY } from '../../config/typography';
 import { SCREENS } from '../../config/screens';
+import { useAsyncStorage } from '../../hooks/useAsyncStorage';
 
-const LockScreen = () => {
-  const navigator = useNavigation();
+const LockScreen = ({ navigation }) => {
   const enterAnimatedValue = new Animated.Value(0);
+  const [getData, _] = useAsyncStorage();
   const enterAnimation = Animated.timing(enterAnimatedValue, {
     toValue: 1,
     duration: 500,
@@ -36,61 +36,65 @@ const LockScreen = () => {
         useNativeDriver: true,
         easing: Easing.bezier(0.17, 0.67, 0.82, 0.98),
       }).start(() => {
-        navigator.navigate(SCREENS.home);
+        navigation.replace(SCREENS.home);
       });
     }
   }, [authenitcated]);
 
   useEffect(() => {
-    (async () => {
-      const checkIfAuthMethodsAvailable = async () => {
-        return await LocalAuthentication.hasHardwareAsync();
-      };
+    getData('fingerprint').then((isEnabled) => {
+      if (!isEnabled) navigation.replace(SCREENS.home);
+      else {
+        (async () => {
+          const checkIfAuthMethodsAvailable = async () => {
+            return await LocalAuthentication.hasHardwareAsync();
+          };
 
-      const getSupportedAuthMethods = async () => {
-        try {
-          return await LocalAuthentication.supportedAuthenticationTypesAsync();
-        } catch (error) {
-          return null;
-        }
-      };
+          const getSupportedAuthMethods = async () => {
+            try {
+              return await LocalAuthentication.supportedAuthenticationTypesAsync();
+            } catch (error) {
+              return null;
+            }
+          };
 
-      const hasAuthData = async () => {
-        try {
-          return LocalAuthentication.isEnrolledAsync();
-        } catch (error) {
-          return null;
-        }
-      };
+          const hasAuthData = async () => {
+            try {
+              return LocalAuthentication.isEnrolledAsync();
+            } catch (error) {
+              return null;
+            }
+          };
 
-      const authenticate = async (options) => {
-        try {
-          return await LocalAuthentication.authenticateAsync(options);
-        } catch (error) {
-          return null;
-        }
-      };
-      const hasDevice = await checkIfAuthMethodsAvailable();
-      if (hasDevice) {
-        const methodsAvailable = await getSupportedAuthMethods();
-        console.log({ methodsAvailable });
-        if (
-          methodsAvailable.includes(
-            LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION
-          )
-        ) {
-          const hasFingerprintRegistered = await hasAuthData();
-          if (hasFingerprintRegistered) {
-            setTimeout(async () => {
-              const authenticated = await authenticate({
-                promptMessage: 'Please verify Fingerprint to continue',
-              });
-              setAuthenitcated(authenticated);
-            }, 600);
+          const authenticate = async (options) => {
+            try {
+              return await LocalAuthentication.authenticateAsync(options);
+            } catch (error) {
+              return null;
+            }
+          };
+          const hasDevice = await checkIfAuthMethodsAvailable();
+          if (hasDevice) {
+            const methodsAvailable = await getSupportedAuthMethods();
+            if (
+              methodsAvailable.includes(
+                LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION
+              )
+            ) {
+              const hasFingerprintRegistered = await hasAuthData();
+              if (hasFingerprintRegistered) {
+                setTimeout(async () => {
+                  const authenticated = await authenticate({
+                    promptMessage: 'Please verify Fingerprint to continue',
+                  });
+                  setAuthenitcated(authenticated);
+                }, 600);
+              }
+            }
           }
-        }
+        })();
       }
-    })();
+    });
   }, []);
 
   return (

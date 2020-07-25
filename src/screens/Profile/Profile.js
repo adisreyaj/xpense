@@ -8,6 +8,7 @@ import {
   ScrollView,
   Dimensions,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -170,7 +171,11 @@ const Profile = () => {
               scrollEnabled={false}
               data={profileSettings}
               renderItem={({ item }) => (
-                <View style={styles.settingsItemContainer}>
+                <TouchableOpacity
+                  style={styles.settingsItemContainer}
+                  activeOpacity={0.8}
+                  onPress={() => navigator.navigate(item.path)}
+                >
                   <View style={styles.settingsItem}>
                     <View style={styles.settingsItemIcon}>
                       <MaterialIcons
@@ -187,7 +192,7 @@ const Profile = () => {
                       {item.subtitle}
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               )}
             />
           </View>

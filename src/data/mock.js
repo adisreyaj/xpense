@@ -109,16 +109,19 @@ export const profileSettings = [
     title: 'Income',
     subtitle: 'Manage your budgets',
     icon: 'account-balance-wallet',
+    path: SCREENS.settings_income,
   },
   {
     title: 'Notifications',
     subtitle: 'Manage your alerts',
     icon: 'notifications',
+    path: SCREENS.settings_notification,
   },
   {
     title: 'General',
     subtitle: 'Configure app',
     icon: 'settings',
+    path: SCREENS.settings_general,
   },
   {
     title: 'About',

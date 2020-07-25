@@ -20,6 +20,7 @@ import Categories from './src/screens/Categories/Categories';
 import AddExpense from './src/screens/AddExpense/AddExpense';
 import Login from './src/screens/Auth/Login';
 import LockScreen from './src/screens/Auth/LockScreen';
+import GeneralSettings from './src/screens/Settings/GeneralSettings';
 
 console.disableYellowBox = true;
 const Stack = createStackNavigator();
@@ -54,6 +55,10 @@ export default function App() {
           <Stack.Screen
             name={SCREENS.categories}
             component={Categories}
+          ></Stack.Screen>
+          <Stack.Screen
+            name={SCREENS.settings_general}
+            component={GeneralSettings}
           ></Stack.Screen>
           <Stack.Screen
             options={{

@@ -111,7 +111,11 @@ const HomeHeader = ({ drawerTranslate }) => {
           resizeMode="contain"
           width="30"
         />
-        <Feather name="menu" size={28} color="#fff" />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Feather name="bell" size={24} color="#fff" />
+          {/* <Spacing r={4} />
+          <Feather name="settings" size={22} color="#fff" /> */}
+        </View>
       </View>
 
       <Animated.View
@@ -176,7 +180,7 @@ const HomeHeader = ({ drawerTranslate }) => {
             elevation: 25,
           }}
         >
-          <TouchableOpacity onPress={gotoProfilePage}>
+          <TouchableOpacity onPress={gotoProfilePage} activeOpacity={0.8}>
             <Image
               source={require('../../../assets/images/avatar.png')}
               resizeMode="contain"

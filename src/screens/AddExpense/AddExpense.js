@@ -40,7 +40,7 @@ const AddExpense = () => {
       let y = 0;
       switch (focus) {
         case 'description':
-          y = 200;
+          y = keyboardHeight + 180;
           break;
         case 'amount':
         case 'type':
@@ -236,91 +236,83 @@ const AddExpense = () => {
                 </View>
               </View>
               <Spacing b={10} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <View style={{ flex: 45 }}>
-                  <Text style={[human.title3, TYPOGRAPHY.subheading]}>
-                    Amount
-                  </Text>
-                  <Spacing b={3} />
-                  <View
-                    style={[
-                      styles.inputContainer,
+              <View>
+                <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                  Amount
+                </Text>
+                <Spacing b={3} />
+                <View
+                  style={[
+                    styles.inputContainer,
 
-                      {
-                        borderColor:
-                          focus === 'amount' ? THEME.primary : '#f3f3f3',
-                      },
-                    ]}
-                  >
-                    <TextInput
-                      style={[styles.textInput, { paddingLeft: 46 }]}
-                      keyboardType="number-pad"
-                      onChangeText={handleChange('amount')}
-                      onBlur={() => {
-                        setFocus(null);
-                        handleBlur('amount');
-                      }}
-                      value={values.amount}
-                      onFocus={() => setFocus('amount')}
+                    {
+                      width: '50%',
+                      borderColor:
+                        focus === 'amount' ? THEME.primary : '#f3f3f3',
+                    },
+                  ]}
+                >
+                  <TextInput
+                    style={[styles.textInput, { paddingLeft: 46 }]}
+                    keyboardType="number-pad"
+                    onChangeText={handleChange('amount')}
+                    onBlur={() => {
+                      setFocus(null);
+                      handleBlur('amount');
+                    }}
+                    value={values.amount}
+                    onFocus={() => setFocus('amount')}
+                  />
+
+                  <View style={{ position: 'absolute', top: 12, left: 16 }}>
+                    <MaterialIcons
+                      name="credit-card"
+                      size={24}
+                      color={focus === 'amount' ? THEME.primary : '#999'}
                     />
-
-                    <View style={{ position: 'absolute', top: 12, left: 16 }}>
-                      <MaterialIcons
-                        name="credit-card"
-                        size={24}
-                        color={focus === 'amount' ? THEME.primary : '#999'}
-                      />
-                    </View>
                   </View>
                 </View>
-                <View style={{ flex: 5 }}></View>
-                <View style={{ flex: 50 }}>
-                  <Text style={[human.title3, TYPOGRAPHY.subheading]}>
-                    Type
-                  </Text>
-                  <Spacing b={8} />
-                  <View
+              </View>
+              <Spacing b={10} />
+              <View>
+                <Text style={[human.title3, TYPOGRAPHY.subheading]}>Type</Text>
+                <Spacing b={8} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => handleChange('type')('debit')}
                     style={{
                       flexDirection: 'row',
-                      justifyContent: 'flex-start',
+                      justifyContent: 'center',
                       alignItems: 'center',
                     }}
                   >
-                    <TouchableOpacity
-                      onPress={() => handleChange('type')('debit')}
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <RadioButton selected={values.type === 'debit'} />
-                      <Spacing r={2} />
-                      <Text style={[human.body, TYPOGRAPHY.subheading]}>
-                        Debit
-                      </Text>
-                    </TouchableOpacity>
-                    <Spacing r={8} />
-                    <TouchableOpacity
-                      onPress={() => handleChange('type')('credit')}
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <RadioButton selected={values.type === 'credit'} />
-                      <Spacing r={2} />
-                      <Text style={[human.body, TYPOGRAPHY.subheading]}>
-                        Credit
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                    <RadioButton selected={values.type === 'debit'} />
+                    <Spacing r={2} />
+                    <Text style={[human.body, TYPOGRAPHY.subheading]}>
+                      Debit
+                    </Text>
+                  </TouchableOpacity>
+                  <Spacing r={8} />
+                  <TouchableOpacity
+                    onPress={() => handleChange('type')('credit')}
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <RadioButton selected={values.type === 'credit'} />
+                    <Spacing r={2} />
+                    <Text style={[human.body, TYPOGRAPHY.subheading]}>
+                      Credit
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
               <Spacing b={10} />
