@@ -71,7 +71,7 @@ export default AddExpenseFAB;
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
-    bottom: -10,
+    bottom: 16,
     right: 16,
     elevation: 20,
     backgroundColor: THEME.primary,

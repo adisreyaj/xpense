@@ -11,7 +11,7 @@ const SectionHeader = ({ title, subtitle, button, buttonClicked }) => {
   return title ? (
     <View style={styles.transactionsHeader}>
       <View>
-        <Text style={[human.title2, TYPOGRAPHY.subheading]}>{title}</Text>
+        <Text style={[human.title3, TYPOGRAPHY.subheading]}>{title}</Text>
         <Spacing b={2} />
         {subtitle && (
           <Text

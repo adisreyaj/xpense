@@ -30,7 +30,7 @@ const Header = ({
             <Ionicons name="md-arrow-back" size={26} color="#fff" />
           </TouchableOpacity>
           {title && (
-            <Text style={[human.title2White, TYPOGRAPHY.subheading]}>
+            <Text style={[human.title3White, TYPOGRAPHY.subheading]}>
               {title}
             </Text>
           )}

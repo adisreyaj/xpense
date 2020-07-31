@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: Dimensions.get('window').width / 3.5,
     borderRadius: 24,
-    padding: 24,
-    paddingVertical: 32,
+    padding: 16,
     justifyContent: 'flex-end',
   },
   dot: {

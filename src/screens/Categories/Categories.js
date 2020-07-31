@@ -7,8 +7,8 @@ import {
   Image,
   Animated,
   Easing,
+  Dimensions,
 } from 'react-native';
-import SectionHeader from '../../components/ui/SectionHeader';
 import Spacing from '../../components/ui/Spacing';
 import { TYPOGRAPHY } from '../../config/typography';
 import { human } from 'react-native-typography';
@@ -153,8 +153,12 @@ const CategoriesIcons = ({ label, id }) => {
       <View style={{ alignItems: 'center' }}>
         <View
           style={{
-            width: 100,
-            height: 100,
+            maxWidth: 80,
+            maxHeight: 80,
+            minHeight: 50,
+            minWidth: 50,
+            width: Dimensions.get('window').width / 5,
+            height: Dimensions.get('window').width / 5,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#fff',
@@ -164,7 +168,7 @@ const CategoriesIcons = ({ label, id }) => {
           <CategoryIcon icon={id} />
         </View>
         <Spacing b={4} />
-        <Text style={[human.body, TYPOGRAPHY.subheading, { opacity: 0.6 }]}>
+        <Text style={[human.footnote, TYPOGRAPHY.subheading, { opacity: 0.6 }]}>
           {label}
         </Text>
       </View>

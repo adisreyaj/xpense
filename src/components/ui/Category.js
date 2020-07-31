@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: THEME.bg,
     width: '100%',
-    height: Dimensions.get('window').width / 3,
+    height: Dimensions.get('window').width / 2.8,
     borderRadius: 24,
     padding: 24,
     paddingVertical: 24,

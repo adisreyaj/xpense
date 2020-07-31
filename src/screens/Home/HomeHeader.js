@@ -8,6 +8,7 @@ import {
   Animated,
   Easing,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Constants from 'expo-constants';
@@ -145,7 +146,7 @@ const HomeHeader = ({ drawerTranslate }) => {
         <View>
           <Animated.Text
             style={[
-              human.title1White,
+              human.title3White,
               TYPOGRAPHY.subheading,
               welcomeMessageTransitions,
             ]}
@@ -158,14 +159,13 @@ const HomeHeader = ({ drawerTranslate }) => {
           >
             Your current balance is
           </Animated.Text>
-          <Spacing t={3} />
           <Animated.Text
             style={[
               human.title1White,
               TYPOGRAPHY.numbers,
               {
-                fontSize: 46,
-                paddingTop: 20,
+                fontSize: 32,
+                paddingTop: 16,
               },
               balanceTransitions,
             ]}
@@ -214,7 +214,11 @@ const styles = StyleSheet.create({
   },
   userImage: {
     borderRadius: 150,
-    width: 100,
-    height: 100,
+    maxWidth: 100,
+    maxHeight: 100,
+    minHeight: 70,
+    minWidth: 70,
+    width: Dimensions.get('window').width / 5,
+    height: Dimensions.get('window').width / 5,
   },
 });

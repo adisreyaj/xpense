@@ -109,7 +109,9 @@ const AddExpense = () => {
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
               <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>Title</Text>
+                <Text style={[human.callout, TYPOGRAPHY.subheading]}>
+                  Title
+                </Text>
                 <Spacing b={3} />
                 <View
                   style={[
@@ -135,7 +137,7 @@ const AddExpense = () => {
               </View>
               <Spacing b={10} />
               <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>Date</Text>
+                <Text style={[human.callout, TYPOGRAPHY.subheading]}>Date</Text>
                 <Spacing b={3} />
                 <View
                   style={[
@@ -178,7 +180,7 @@ const AddExpense = () => {
               </View>
               <Spacing b={10} />
               <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                <Text style={[human.callout, TYPOGRAPHY.subheading]}>
                   Category
                 </Text>
                 <View>
@@ -237,7 +239,7 @@ const AddExpense = () => {
               </View>
               <Spacing b={10} />
               <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                <Text style={[human.callout, TYPOGRAPHY.subheading]}>
                   Amount
                 </Text>
                 <Spacing b={3} />
@@ -275,7 +277,7 @@ const AddExpense = () => {
               </View>
               <Spacing b={10} />
               <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>Type</Text>
+                <Text style={[human.callout, TYPOGRAPHY.subheading]}>Type</Text>
                 <Spacing b={8} />
                 <View
                   style={{
@@ -294,7 +296,7 @@ const AddExpense = () => {
                   >
                     <RadioButton selected={values.type === 'debit'} />
                     <Spacing r={2} />
-                    <Text style={[human.body, TYPOGRAPHY.subheading]}>
+                    <Text style={[human.callout, TYPOGRAPHY.subheading]}>
                       Debit
                     </Text>
                   </TouchableOpacity>
@@ -309,7 +311,7 @@ const AddExpense = () => {
                   >
                     <RadioButton selected={values.type === 'credit'} />
                     <Spacing r={2} />
-                    <Text style={[human.body, TYPOGRAPHY.subheading]}>
+                    <Text style={[human.callout, TYPOGRAPHY.subheading]}>
                       Credit
                     </Text>
                   </TouchableOpacity>
@@ -317,7 +319,7 @@ const AddExpense = () => {
               </View>
               <Spacing b={10} />
               <View>
-                <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                <Text style={[human.callout, TYPOGRAPHY.subheading]}>
                   Description
                 </Text>
                 <Spacing b={3} />
@@ -350,7 +352,7 @@ const AddExpense = () => {
               <View style={{ paddingVertical: 24 }}>
                 <Buttons click={handleSubmit}>Save</Buttons>
               </View>
-              <Spacing b={10} />
+              <Spacing b={20} />
             </View>
           )}
         </Formik>
@@ -414,7 +416,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 50,
     paddingHorizontal: 18,
-    fontSize: 18,
+    fontSize: 16,
     color: THEME.textPrimary,
     fontFamily: 'Quicksand_500Medium',
   },

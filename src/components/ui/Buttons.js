@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { THEME } from '../../config/theme';
 import { TYPOGRAPHY } from '../../config/typography';
+import { human } from 'react-native-typography';
 
 const Buttons = ({ children, color = 'primary', type = 'base', click }) => {
   return (
@@ -12,9 +13,9 @@ const Buttons = ({ children, color = 'primary', type = 'base', click }) => {
     >
       <Text
         style={{
+          ...human.footnoteObject,
           ...TYPOGRAPHY.subheading,
           ...textColor[color],
-          fontSize: 18,
           marginBottom: 4,
         }}
       >

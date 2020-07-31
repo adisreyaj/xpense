@@ -197,27 +197,27 @@ const HomeBody = ({ translationY }) => {
   const navigateTo = (screen) => screen && navigator.navigate(screen);
 
   return (
-    <PanGestureHandler
-      enabled={appLoaded && drawerActive}
-      onHandlerStateChange={(e) =>
-        setTranslationYValue(e.nativeEvent.translationY)
-      }
+    <Animated.View
+      style={{
+        ...styles.body,
+        ...bodyTransitions,
+      }}
     >
       <Animated.View
         style={{
-          ...styles.body,
-          ...bodyTransitions,
+          ...styles.content,
+          ...contentTransitions,
         }}
       >
-        <Animated.View
-          style={{
-            ...styles.content,
-            ...contentTransitions,
+        <PanGestureHandler
+          enabled={appLoaded && drawerActive}
+          onHandlerStateChange={(e) => {
+            setTranslationYValue(e.nativeEvent.translationY);
           }}
         >
           <Animated.View
             style={{
-              height: Dimensions.get('screen').height - 180,
+              height: Dimensions.get('window').height - 100,
               transform: [
                 {
                   translateY: translationY.interpolate({
@@ -232,7 +232,9 @@ const HomeBody = ({ translationY }) => {
             <ScrollView
               scrollEnabled={!drawerActive}
               showsVerticalScrollIndicator={false}
-              style={{ flex: 1, flexGrow: 1 }}
+              style={{
+                flex: 1,
+              }}
               onScrollEndDrag={({
                 nativeEvent: {
                   contentOffset: { y },
@@ -298,12 +300,36 @@ const HomeBody = ({ translationY }) => {
                   </Animated.View>
                 )}
               />
+              <Spacing t={8} />
+              <Animated.View style={categoriesHeaderTransitions}>
+                <SectionHeader
+                  title="Categories"
+                  button="View More"
+                  buttonClicked={() => navigateTo(SCREENS.categories)}
+                />
+              </Animated.View>
+              <FlatList
+                numColumns={2}
+                scrollEnabled={false}
+                data={categories.slice(0, 4)}
+                keyExtractor={(item) => item.title}
+                renderItem={({ item, index }) => (
+                  <Animated.View
+                    style={{
+                      flex: 1,
+                      ...categoriesItemTransitions(index),
+                    }}
+                  >
+                    <Category {...item} />
+                  </Animated.View>
+                )}
+              />
               <Spacing b={10} />
             </ScrollView>
           </Animated.View>
-        </Animated.View>
+        </PanGestureHandler>
       </Animated.View>
-    </PanGestureHandler>
+    </Animated.View>
   );
 };
 
@@ -319,7 +345,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   content: {
-    paddingTop: 12,
     paddingHorizontal: 24,
+    flex: 1,
   },
 });

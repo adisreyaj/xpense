@@ -20,17 +20,21 @@ const TransactionItem = ({ title, category, icon, color, type, amount }) => {
           <View style={styles.icon}>
             <CategoryIcon icon={icon} />
           </View>
-          <Spacing r={3} />
-          <View>
-            <Text style={[human.callout, TYPOGRAPHY.subheading]}>{title}</Text>
-            <Spacing t={0.3} />
+          <Spacing r={2} />
+          <View style={styles.info}>
+            <Text
+              style={[human.callout, TYPOGRAPHY.subheading]}
+              numberOfLines={1}
+            >
+              {title}
+            </Text>
             <Text style={[human.footnote, TYPOGRAPHY.body]}>25 Jun</Text>
           </View>
         </View>
         <View style={styles.contentRight}>
           {arrowIcons[type]}
           <Spacing r={1} />
-          <Text style={[human.title2, TYPOGRAPHY.numbers]}>${amount}</Text>
+          <Text style={[human.body, TYPOGRAPHY.numbers]}>${amount}</Text>
         </View>
       </View>
     </View>
@@ -42,12 +46,13 @@ export default TransactionItem;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 8,
+    marginVertical: 6,
   },
   content: {
     width: '100%',
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingRight: 16,
+    paddingLeft: 6,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -57,15 +62,21 @@ const styles = StyleSheet.create({
   contentLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 0.7,
   },
   contentRight: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    flex: 0.3,
   },
   icon: {
-    width: 55,
-    height: 55,
+    width: 50,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  info: {
+    flex: 1,
   },
 });
