@@ -67,65 +67,62 @@ const Profile = () => {
           ...styles.body,
         }}
       >
-        <View
-          style={{
-            width: '100%',
-            paddingHorizontal: 12,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <Animated.View
+        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <Spacing t={8} />
+          <View
             style={{
-              ...styles.avatarContainer,
+              width: '100%',
+              paddingHorizontal: 12,
+              flexDirection: 'row',
+              alignItems: 'center',
             }}
           >
-            <View style={styles.progress}>
-              <AnimatedCircularProgress
-                size={Dimensions.get('window').width / 3.5}
-                width={10}
-                rotation={0}
-                fill={60}
-                lineCap="round"
-                tintColor={THEME.accent}
-                backgroundColor={THEME.bg}
+            <Animated.View
+              style={{
+                ...styles.avatarContainer,
+              }}
+            >
+              <View style={styles.progress}>
+                <AnimatedCircularProgress
+                  size={Dimensions.get('window').width / 3.5}
+                  width={10}
+                  rotation={0}
+                  fill={60}
+                  lineCap="round"
+                  tintColor={THEME.accent}
+                  backgroundColor={THEME.bg}
+                />
+              </View>
+              <Image
+                source={require('../../../assets/images/avatar.png')}
+                resizeMode="contain"
+                style={styles.avatar}
               />
+            </Animated.View>
+            <Spacing r={6} />
+            <View>
+              <Text
+                style={[
+                  human.title2,
+                  TYPOGRAPHY.heading,
+                  { color: THEME.primary },
+                ]}
+              >
+                Maicy Williams
+              </Text>
+              <Spacing t={2} />
+              <Text
+                style={[
+                  human.headline,
+                  TYPOGRAPHY.body,
+                  { color: THEME.textSecondary },
+                ]}
+              >
+                Saving Streak
+              </Text>
             </View>
-            <Image
-              source={require('../../../assets/images/avatar.png')}
-              resizeMode="contain"
-              style={styles.avatar}
-            />
-          </Animated.View>
-          <Spacing r={6} />
-          <View>
-            <Text
-              style={[
-                human.title2,
-                TYPOGRAPHY.heading,
-                { color: THEME.primary },
-              ]}
-            >
-              Maicy Williams
-            </Text>
-            <Spacing t={2} />
-            <Text
-              style={[
-                human.headline,
-                TYPOGRAPHY.body,
-                { color: THEME.textSecondary },
-              ]}
-            >
-              Saving Streak
-            </Text>
           </View>
-        </View>
-        <Spacing b={4} />
-        <ScrollView
-          style={{}}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: 'center' }}
-        >
+          <Spacing b={4} />
           <View style={styles.highlightsContainer}>
             <View style={{ width: '100%' }}>
               <FlatList
@@ -239,12 +236,10 @@ const styles = StyleSheet.create({
   body: {
     width: '100%',
     backgroundColor: '#fff',
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height - 130,
     marginTop: -80,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 24,
-    paddingTop: 42,
     paddingHorizontal: 16,
     alignItems: 'center',
   },
