@@ -324,7 +324,7 @@ const HomeBody = ({ translationY }) => {
                   </Animated.View>
                 )}
               />
-              <Spacing b={10} />
+              <Spacing b={0} />
             </ScrollView>
           </Animated.View>
         </PanGestureHandler>

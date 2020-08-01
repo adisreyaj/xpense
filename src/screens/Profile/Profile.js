@@ -24,7 +24,6 @@ import Spacing from '../../components/ui/Spacing';
 import { lightenColor } from '../../helpers/color.helper';
 import SectionHeader from '../../components/ui/SectionHeader';
 import { profileSettings } from '../../data/mock';
-import { PanGestureHandler } from 'react-native-gesture-handler';
 
 const Profile = () => {
   const navigator = useNavigation();
@@ -68,49 +67,65 @@ const Profile = () => {
           ...styles.body,
         }}
       >
-        <Animated.View
+        <View
           style={{
-            ...styles.avatarContainer,
+            width: '100%',
+            paddingHorizontal: 12,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <View style={styles.progress}>
-            <AnimatedCircularProgress
-              size={210}
-              width={10}
-              rotation={0}
-              fill={60}
-              lineCap="round"
-              tintColor={THEME.accent}
-              backgroundColor={THEME.bg}
+          <Animated.View
+            style={{
+              ...styles.avatarContainer,
+            }}
+          >
+            <View style={styles.progress}>
+              <AnimatedCircularProgress
+                size={Dimensions.get('window').width / 3.5}
+                width={10}
+                rotation={0}
+                fill={60}
+                lineCap="round"
+                tintColor={THEME.accent}
+                backgroundColor={THEME.bg}
+              />
+            </View>
+            <Image
+              source={require('../../../assets/images/avatar.png')}
+              resizeMode="contain"
+              style={styles.avatar}
             />
+          </Animated.View>
+          <Spacing r={6} />
+          <View>
+            <Text
+              style={[
+                human.title2,
+                TYPOGRAPHY.heading,
+                { color: THEME.primary },
+              ]}
+            >
+              Maicy Williams
+            </Text>
+            <Spacing t={2} />
+            <Text
+              style={[
+                human.headline,
+                TYPOGRAPHY.body,
+                { color: THEME.textSecondary },
+              ]}
+            >
+              Saving Streak
+            </Text>
           </View>
-          <Image
-            source={require('../../../assets/images/avatar.png')}
-            resizeMode="contain"
-            style={styles.avatar}
-          />
-        </Animated.View>
-        <Spacing b={8} />
+        </View>
+        <Spacing b={4} />
         <ScrollView
           style={{}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ alignItems: 'center' }}
         >
-          <Text
-            style={[human.title1, TYPOGRAPHY.heading, { color: THEME.primary }]}
-          >
-            Maicy Williams
-          </Text>
-          <Spacing t={2} />
-          <Text
-            style={[
-              human.title3,
-              TYPOGRAPHY.body,
-              { color: THEME.textSecondary },
-            ]}
-          >
-            Saving Streak
-          </Text>
           <View style={styles.highlightsContainer}>
             <View style={{ width: '100%' }}>
               <FlatList
@@ -133,7 +148,7 @@ const Profile = () => {
                     <Spacing t={5} />
                     <Text
                       style={[
-                        human.title1,
+                        human.title3,
                         TYPOGRAPHY.numbers,
                         { color: THEME.textPrimary, fontWeight: '700' },
                       ]}
@@ -143,7 +158,7 @@ const Profile = () => {
                     <Spacing t={1} />
                     <Text
                       style={[
-                        human.callout,
+                        human.footnote,
                         TYPOGRAPHY.body,
                         { color: THEME.textSecondary },
                       ]}
@@ -180,15 +195,15 @@ const Profile = () => {
                     <View style={styles.settingsItemIcon}>
                       <MaterialIcons
                         name={item.icon}
-                        size={28}
+                        size={24}
                         color={THEME.primary}
                       />
                     </View>
                     <Spacing b={4} />
-                    <Text style={[human.title3, TYPOGRAPHY.subheading]}>
+                    <Text style={[human.callout, TYPOGRAPHY.subheading]}>
                       {item.title}
                     </Text>
-                    <Text style={[human.callout, TYPOGRAPHY.body]}>
+                    <Text style={[human.caption1, TYPOGRAPHY.body]}>
                       {item.subtitle}
                     </Text>
                   </View>
@@ -206,28 +221,30 @@ export default Profile;
 
 const styles = StyleSheet.create({
   avatarContainer: {
-    width: 220,
-    height: 220,
-    marginTop: -100,
+    width: Dimensions.get('window').width / 4,
+    height: Dimensions.get('window').width / 4,
     borderRadius: 250,
     flexDirection: 'row',
     borderColor: '#fff',
-    borderWidth: 20,
     alignItems: 'center',
   },
   avatar: {
-    width: 180,
-    height: 180,
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    width: Dimensions.get('window').width / 4,
+    height: Dimensions.get('window').width / 4,
     borderRadius: 180,
   },
   body: {
     width: '100%',
     backgroundColor: '#fff',
-    height: Dimensions.get('screen').height - 180,
-    marginTop: -30,
+    height: Dimensions.get('window').height,
+    marginTop: -80,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 12,
+    paddingVertical: 24,
+    paddingTop: 42,
     paddingHorizontal: 16,
     alignItems: 'center',
   },
@@ -235,6 +252,7 @@ const styles = StyleSheet.create({
     marginTop: 42,
     width: '100%',
     paddingHorizontal: 24,
+    paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -261,17 +279,21 @@ const styles = StyleSheet.create({
   },
   settingsItemContainer: {
     flex: 0.5,
-    padding: 16,
+    padding: 8,
   },
   settingsItem: {
     backgroundColor: THEME.bg,
-    padding: 24,
-    minHeight: 120,
+    padding: 16,
     borderRadius: 20,
+    justifyContent: 'center',
   },
   settingsItemIcon: {
-    width: 50,
-    height: 50,
+    maxWidth: 40,
+    maxHeight: 40,
+    minWidth: 25,
+    minHeight: 25,
+    width: Dimensions.get('window').width / 7,
+    height: Dimensions.get('window').width / 7,
     borderRadius: 8,
     backgroundColor: `${THEME.primary}30`,
     justifyContent: 'center',

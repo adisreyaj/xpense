@@ -81,7 +81,7 @@ export default GeneralSettings;
 const styles = StyleSheet.create({
   body: {
     width: '100%',
-    backgroundColor: THEME.bg,
+    backgroundColor: '#fff',
     height: '100%',
     marginTop: -30,
     borderTopLeftRadius: 30,
