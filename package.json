@@ -10,12 +10,16 @@
   "dependencies": {
     "@expo-google-fonts/oswald": "^0.1.0",
     "@expo-google-fonts/quicksand": "^0.1.0",
+    "@react-native-community/async-storage": "~1.11.0",
+    "@react-native-community/datetimepicker": "2.4.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.6.1",
     "@react-navigation/stack": "^5.6.2",
     "expo": "~38.0.1",
     "expo-constants": "~9.1.1",
     "expo-font": "~8.2.1",
+    "expo-local-authentication": "~9.1.1",
+    "expo-sqlite": "^8.2.1",
     "expo-status-bar": "^1.0.0",
     "formik": "^2.1.5",
     "react": "~16.11.0",
@@ -28,10 +32,7 @@
     "react-native-screens": "~2.9.0",
     "react-native-svg": "12.1.0",
     "react-native-typography": "^1.4.1",
-    "react-native-web": "~0.11.7",
-    "@react-native-community/datetimepicker": "2.4.0",
-    "expo-local-authentication": "~9.1.1",
-    "@react-native-community/async-storage": "~1.11.0"
+    "react-native-web": "~0.11.7"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

@@ -11,6 +11,7 @@ import { Oswald_400Regular } from '@expo-google-fonts/oswald';
 import { AppLoading } from 'expo';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { SCREENS } from './src/config/screens';
 import Home from './src/screens/Home/Home';
@@ -21,11 +22,13 @@ import AddExpense from './src/screens/AddExpense/AddExpense';
 import Login from './src/screens/Auth/Login';
 import LockScreen from './src/screens/Auth/LockScreen';
 import GeneralSettings from './src/screens/Settings/GeneralSettings';
+import { useDatabase } from './src/hooks/useDatabase';
 
 console.disableYellowBox = true;
 const Stack = createStackNavigator();
 
 export default function App() {
+  SplashScreen.preventAutoHideAsync();
   const [fontsLoaded] = useFonts({
     Quicksand_400Regular,
     Quicksand_500Medium,
@@ -33,7 +36,8 @@ export default function App() {
     Quicksand_700Bold,
     Oswald_400Regular,
   });
-  if (!fontsLoaded) return <AppLoading />;
+  const [isLoaded] = useDatabase();
+  if (!fontsLoaded && !isLoaded) return <AppLoading />;
   return (
     <View style={styles.container}>
       <NavigationContainer>
