@@ -68,8 +68,63 @@ const addExpense = ({ id, title, amount, description, date, type }) => {
   });
 };
 
+const updateExpense = (id, { title, amount, description, date, type }) => {
+  return new Promise((resolve, reject) => {
+    const successCb = (_, { rows: { _array } }) => {
+      resolve(_array);
+    };
+    const errorCb = ({ _, err }) => {
+      reject(err);
+    };
+    const txnErrorCb = (error) => {
+      reject(error);
+    };
+    db.transaction((tx) => {
+      tx.executeSql(
+        `UPDATE expenses SET 
+        title=?,
+        amount=?,
+        description=?,
+        date=?,
+        type=?
+        WHERE id = ?
+      `,
+        [title, amount, description, date, type, id],
+        successCb,
+        errorCb
+      );
+    }, txnErrorCb);
+  });
+};
+
+const deleteExpense = (id) => {
+  return new Promise((resolve, reject) => {
+    const successCb = (_, { rows: { _array } }) => {
+      resolve(_array);
+    };
+    const errorCb = ({ _, err }) => {
+      reject(err);
+    };
+    const txnErrorCb = (error) => {
+      reject(error);
+    };
+    db.transaction((tx) => {
+      tx.executeSql(
+        `DELETE FROM expenses
+        WHERE id = ?
+      `,
+        [id],
+        successCb,
+        errorCb
+      );
+    }, txnErrorCb);
+  });
+};
+
 export const expenseService = {
   setupExpensesTable,
   getExpenses,
   addExpense,
+  updateExpense,
+  deleteExpense,
 };

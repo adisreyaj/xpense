@@ -38,6 +38,7 @@ export default function App() {
   });
   const [isLoaded] = useDatabase();
   if (!fontsLoaded && !isLoaded) return <AppLoading />;
+  SplashScreen.hideAsync();
   return (
     <View style={styles.container}>
       <NavigationContainer>
