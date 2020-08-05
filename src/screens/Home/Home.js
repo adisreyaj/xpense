@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet, View, Dimensions, Animated } from 'react-native';
 
 import HomeHeader from './HomeHeader';
@@ -8,7 +8,6 @@ import { THEME } from '../../config/theme';
 
 const Home = () => {
   const translationY = useRef(new Animated.Value(-1)).current;
-
   return (
     <View style={styles.body}>
       <HomeHeader drawerTranslate={translationY} />

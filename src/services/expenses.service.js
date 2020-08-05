@@ -1,7 +1,4 @@
-import React from 'react';
-
 import * as SQLite from 'expo-sqlite';
-
 const db = SQLite.openDatabase('expenses');
 
 const setupExpensesTable = () => {
@@ -86,7 +83,7 @@ const updateExpense = (id, { title, amount, description, date, type }) => {
         amount=?,
         description=?,
         date=?,
-        type=?
+        type=?,
         WHERE id = ?
       `,
         [title, amount, description, date, type, id],

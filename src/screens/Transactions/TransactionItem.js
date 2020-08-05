@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { THEME } from '../../config/theme';
 import { human } from 'react-native-typography';
 import { TYPOGRAPHY } from '../../config/typography';
 import Spacing from '../../components/ui/Spacing';
@@ -34,7 +33,7 @@ const TransactionItem = ({ title, category, icon, color, type, amount }) => {
         <View style={styles.contentRight}>
           {arrowIcons[type]}
           <Spacing r={1} />
-          <Text style={[human.body, TYPOGRAPHY.numbers]}>${amount}</Text>
+          <Text style={[human.body, TYPOGRAPHY.numbers]}>Rs.{amount}</Text>
         </View>
       </View>
     </View>

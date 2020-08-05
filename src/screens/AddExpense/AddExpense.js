@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import { nanoid } from 'nanoid/async/index.native';
 
 import { useNavigation } from '@react-navigation/native';
 import { human } from 'react-native-typography';
@@ -27,6 +28,7 @@ import CategoryIcon from '../../components/ui/CategoryIcon';
 import Buttons from '../../components/ui/Buttons';
 import { useKeyboard } from '../../hooks/useKeyboardHeight';
 import RadioButton from '../../components/ui/RadioButton';
+import { expenseService } from '../../services/expenses.service';
 
 const AddExpense = () => {
   const navigator = useNavigation();
@@ -58,7 +60,7 @@ const AddExpense = () => {
   const formFields = {
     category: '',
     title: '',
-    date: new Date(),
+    date: 123,
     description: '',
     amount: '',
     type: 'debit',
@@ -104,7 +106,13 @@ const AddExpense = () => {
         <Spacing t={4} />
         <Formik
           initialValues={formFields}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={async (values) => {
+            const valuesWithId = { ...values, id: await nanoid() };
+            expenseService
+              .addExpense(valuesWithId)
+              .then(() => console.log('Expense Added'))
+              .catch(console.log);
+          }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
@@ -172,7 +180,7 @@ const AddExpense = () => {
                       value={values.date}
                       onChange={(_, date) => {
                         setShowDatePicker(false);
-                        handleChange('date')(`${date}`);
+                        handleChange('date')(`${12312313213}`);
                       }}
                     />
                   )}
@@ -410,7 +418,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: '#ccc',
-    // elevation: 0.5,
     margin: 4,
   },
   textInput: {
